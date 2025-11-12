@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'christiana';
+    src: url('/fonts/christiana.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'nintendobios';
+    src: url('/fonts/nintendobios.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@theme {
+    --color-roof-500: oklch(0.687 0.1249 254.53);
+    --color-cream-500: oklch(0.9578 0.0559 109.6);
+    --color-pumpkin-500: oklch(0.8332 0.1065 67.29);
+
+    --font-display: 'christiana', sans-serif;
+    --font-christiana: 'christiana', sans-serif;
+    --font-nintendobios: 'nintendobios', sans-serif;
+}
