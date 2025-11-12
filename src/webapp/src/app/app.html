@@ -1,17 +1,9 @@
-<header class="bg-white shadow">
+<header class="bg-roof-500 shadow">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center py-4">
       <div class="flex items-center space-x-4">
-        <h1 class="text-2xl font-extrabold">PokéMart</h1>
-        <span class="text-sm text-gray-500">Gotta buy 'em all</span>
-      </div>
-      <div class="hidden sm:flex items-center space-x-4">
-        <input
-          type="search"
-          placeholder="Search items..."
-          class="w-64 px-3 py-2 border rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Search</button>
+        <h1 class="text-2xl font-extrabold text-white">PokéMart</h1>
+        <span class="text-sm text-gray-200">Gotta buy 'em all!</span>
       </div>
     </div>
   </div>
@@ -19,15 +11,14 @@
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Filters / Categories -->
     <aside class="lg:col-span-3">
       <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
         <h2 class="font-semibold mb-3">Categories</h2>
         <ul class="space-y-2 text-sm">
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-gray-100">All</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-gray-100">Poké Balls</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-gray-100">Potions</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-gray-100">Berries</button></li>
+          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">All</button></li>
+          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Poké Balls</button></li>
+          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Potions</button></li>
+          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Berries</button></li>
         </ul>
 
         <div class="mt-6">
@@ -36,125 +27,29 @@
             <input type="number" placeholder="Min" class="w-1/2 px-2 py-1 border rounded" />
             <input type="number" placeholder="Max" class="w-1/2 px-2 py-1 border rounded" />
           </div>
-          <button class="mt-3 w-full bg-indigo-600 text-white py-2 rounded">Apply</button>
+          <button class="mt-3 w-full bg-pumpkin-500 text-white py-2 rounded">Apply</button>
         </div>
       </div>
     </aside> 
 
-    <!-- Products -->
     <section class="lg:col-span-6">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold">Products</h2>
-        <div class="text-sm text-gray-500">Showing 12 items</div>
+        <div class="text-sm text-gray-500">Showing {{ items().length }} items</div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <!-- Product card (repeatable) -->
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Great Ball</h3>
-          <p class="text-sm text-gray-500">Better catch rate</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽600</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-          <div class="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">Image</div>
-          <h3 class="mt-3 font-medium">Potion</h3>
-          <p class="text-sm text-gray-500">Restores health</p>
-          <div class="mt-3 flex items-center justify-between">
-            <div class="font-semibold">₽300</div>
-            <button class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">Add</button>
-          </div>
-        </article>
-
-        <!-- ...repeat similar cards or generate dynamically in app -->
+        @for (item of items(); track item.id) {
+          <app-item 
+            [name]="item.name"
+            [category]="item.category"
+            [description]="item.description"
+            [price]="item.price">
+          </app-item>
+        }
       </div>
     </section>
 
-    <!-- Cart summary -->
     <aside class="lg:col-span-3">
       <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
         <h2 class="font-semibold mb-3">Cart</h2>
@@ -171,7 +66,7 @@
             <div>Total</div>
             <div>₽1,500</div>
           </div>
-          <button class="mt-4 w-full bg-green-600 text-white py-2 rounded">Checkout</button>
+          <button class="mt-4 w-full bg-pumpkin-500 text-white py-2 rounded">Checkout</button>
         </div>
       </div>
     </aside>
@@ -179,5 +74,5 @@
 </main>
 
 <footer class="mt-10 py-6 text-center text-sm text-gray-500">
-  © PokéMart — demo layout
+  ©2025 Pokémon. ©1995-2025 Nintendo / Creatures Inc. / GAME FREAK inc. Pokémon and Pokémon item names are trademarks of Nintendo.
 </footer>
