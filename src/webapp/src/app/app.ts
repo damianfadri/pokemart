@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Item } from './item/item';
-import { ItemModel } from './item/item.model';
+import { ItemComponent } from './item/item.component';
+import { Item } from './item/item.model';
+import { CartComponent } from './cart/cart.component';
 
-const defaultItems: ItemModel[] = [
+const defaultItems: Item[] = [
   { id: '1', name: 'Potion', description: 'Restores 20 HP', price: 300, category: 'Potion' },
   { id: '2', name: 'Great Ball', description: 'Better than a Poké Ball', price: 600, category: 'Poké Ball' },
   { id: '3', name: 'Super Potion', description: 'Restores 50 HP', price: 700, category: 'Potion' },
@@ -17,10 +18,10 @@ const defaultItems: ItemModel[] = [
 
 @Component({
   selector: 'app-root',
-  imports: [Item],
+  imports: [ItemComponent, CartComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  items = signal<ItemModel[]>(defaultItems);
+  items = signal<Item[]>(defaultItems);
 }

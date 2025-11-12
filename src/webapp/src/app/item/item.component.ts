@@ -6,7 +6,7 @@ import { Component, input } from '@angular/core';
   templateUrl: './item.html',
   styleUrl: './item.css',
 })
-export class Item {
+export class ItemComponent {
   name = input.required<string>();
   category = input.required<string>();
   price = input.required<number>();

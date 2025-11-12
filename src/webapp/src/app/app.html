@@ -13,8 +13,8 @@
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     <aside class="lg:col-span-3">
       <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-        <h2 class="font-semibold mb-3">Categories</h2>
-        <ul class="space-y-2 text-sm">
+        <h2 class="text-2xl font-semibold mb-3">Categories</h2>
+        <ul class="space-y-2 text-lg">
           <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">All</button></li>
           <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Poké Balls</button></li>
           <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Potions</button></li>
@@ -22,20 +22,20 @@
         </ul>
 
         <div class="mt-6">
-          <h3 class="font-medium mb-2">Price</h3>
+          <h3 class="text-lg font-medium mb-2">Price</h3>
           <div class="flex items-center space-x-2 text-sm">
-            <input type="number" placeholder="Min" class="w-1/2 px-2 py-1 border rounded" />
-            <input type="number" placeholder="Max" class="w-1/2 px-2 py-1 border rounded" />
+            <input type="number" placeholder="Min" class="w-1/2 px-2 py-1 border rounded border-pumpkin-500" />
+            <input type="number" placeholder="Max" class="w-1/2 px-2 py-1 border rounded border-pumpkin-500" />
           </div>
-          <button class="mt-3 w-full bg-pumpkin-500 text-white py-2 rounded">Apply</button>
+          <button class="text-lg mt-3 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded">Apply</button>
         </div>
       </div>
     </aside> 
 
     <section class="lg:col-span-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold">Products</h2>
-        <div class="text-sm text-gray-500">Showing {{ items().length }} items</div>
+        <h2 class="text-2xl font-semibold">Products</h2>
+        <div class="text-lg text-gray-500">Showing {{ items().length }} items</div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -52,22 +52,7 @@
 
     <aside class="lg:col-span-3">
       <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-        <h2 class="font-semibold mb-3">Cart</h2>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between">
-            <div>Potion ×1</div>
-            <div>₽300</div>
-          </div>
-          <div class="flex justify-between">
-            <div>Great Ball ×2</div>
-            <div>₽1,200</div>
-          </div>
-          <div class="border-t pt-3 flex justify-between font-semibold">
-            <div>Total</div>
-            <div>₽1,500</div>
-          </div>
-          <button class="mt-4 w-full bg-pumpkin-500 text-white py-2 rounded">Checkout</button>
-        </div>
+        <app-cart></app-cart>
       </div>
     </aside>
   </div>
