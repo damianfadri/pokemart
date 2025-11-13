@@ -5,45 +5,90 @@ import { ItemsService } from './items.service';
 import { Item } from './item/item.model';
 
 describe('Items', () => {
-  let component: ItemsComponent;
-  let fixture: ComponentFixture<ItemsComponent>;
-
-  const itemsService = jasmine.createSpyObj(ItemsService, ['getItems']);
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ItemsComponent],
-      providers: [
-        { provide: ItemsService, useValue: itemsService }
-      ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ItemsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
   describe('items should', () => {
-    it('get items', () => {
+    it('get items', async () => {
 
-      const expected: Item[] = [
-        { id: '1', name: 'Potion', price: 300 },
-        { id: '2', name: 'Great Ball', price: 600 }
-      ];
-
-      itemsService.getItems
-        .and.returnValue(
-          Promise.resolve(expected));
+      const fixture = new SutBuilder()
+        .withItems([
+          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ])
+        .build();
 
       fixture.detectChanges();
-      
-      const actual = fixture.componentInstance.items.value() ?? [];
+      await fixture.whenStable();
 
-      expect([
-        { id: '1', name: 'Potion', price: 300 },
-        { id: '2', name: 'Great Ball', price: 600 }
-      ]).toEqual(actual);
+      expect(fixture.componentInstance.items.value()).toEqual([
+        { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+        { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+      ]);
+    });
+
+    it('render items', async () => {
+      const fixture = new SutBuilder()
+        .withItems([
+          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ])
+        .build();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.querySelector('[data-testid=items-list]')?.children.length).toBe(2);
+      expect(compiled.querySelector('[data-testid=items-list]')?.children[0].textContent).toContain('Potion');
+      expect(compiled.querySelector('[data-testid=items-list]')?.children[1].textContent).toContain('Great Ball');
+    });
+  });
+
+  describe('count should', () => {
+    it('return the number of items', async () => {
+      const fixture = new SutBuilder()
+        .withItems([
+          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ])
+        .build();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.count()).toBe(2);
+    });
+
+    it('return 0 when there are no items', async () => {
+      const fixture = new SutBuilder()
+        .withItems([])
+        .build();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.count()).toBe(0);
     });
   });
 });
+
+class SutBuilder {
+  private readonly mockItemsService;
+
+  constructor() {
+    this.mockItemsService = jasmine.createSpyObj(ItemsService, ['getItems']);
+  }
+  
+  withItems(items: Item[]): SutBuilder {
+    this.mockItemsService.getItems.and.returnValue(Promise.resolve(items));
+    return this;
+  }
+
+  build(): ComponentFixture<ItemsComponent> {
+    TestBed.configureTestingModule({
+      imports: [ItemsComponent],
+      providers: [{ provide: ItemsService, useValue: this.mockItemsService }],
+    });
+
+    return TestBed.createComponent(ItemsComponent);
+  }
+}
