@@ -33,21 +33,7 @@
     </aside> 
 
     <section class="lg:col-span-6">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-2xl font-semibold">Products</h2>
-        <div class="text-lg text-gray-500">Showing {{ items().length }} items</div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @for (item of items(); track item.id) {
-          <app-item 
-            [name]="item.name"
-            [category]="item.category"
-            [description]="item.description"
-            [price]="item.price">
-          </app-item>
-        }
-      </div>
+      <app-items></app-items>
     </section>
 
     <aside class="lg:col-span-3">
