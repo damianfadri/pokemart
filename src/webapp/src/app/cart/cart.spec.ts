@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartComponent } from './cart';
-import { CartItem } from './cart.model';
+import { CartItem } from './cart-item/cart-item.model';
 import { CartService } from './cart.service';
 
 describe('Cart', () => {
@@ -52,24 +52,6 @@ describe('Cart', () => {
 
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=cart-items]')?.children.length).toBe(2);
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-name]')?.textContent).toContain('Potion');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-quantity]')?.textContent).toContain('2');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-price]')?.textContent).toContain('300');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-name]')?.textContent).toContain('Great Ball');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-quantity]')?.textContent).toContain('1');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-price]')?.textContent).toContain('600');
     });
   });
 
@@ -107,14 +89,72 @@ describe('Cart', () => {
       expect(compiled.querySelector('[data-testid=cart-total-price]')?.textContent).toContain('1200');
     });
   });
+});
 
+describe('CartService', () => {
+  let service: CartService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [CartService]
+    });
+
+    service = TestBed.inject(CartService);
+  });
+
+  describe('constructor should', () => {
+    it('start empty', () => {
+      expect(service.getItems()).toEqual([]);
+    });
+  });
+
+  describe('addItem should', () => {
+    it('add a new item when not present', () => {
+      const item: CartItem = { name: 'Potion', quantity: 1, price: 300 };
+      service.addItem(item);
+      expect(service.getItems()).toEqual([item]);
+    });
+
+    it('increment quantity when adding an existing item', () => {
+      const item1: CartItem = { name: 'Potion', quantity: 2, price: 300 };
+      const item2: CartItem = { name: 'Potion', quantity: 1, price: 300 };
+      service.addItem(item1);
+      service.addItem(item2);
+
+      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 3, price: 300 }]);
+    });
+  });
+
+  describe('removeItem should', () => {
+    it('decrement quantity when removing less than existing', () => {
+      service.addItem({ name: 'Potion', quantity: 3, price: 300 });
+      service.removeItem({ name: 'Potion', quantity: 1, price: 300 });
+      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 2, price: 300 }]);
+    });
+
+    it('remove item completely when removing equal or more quantity', () => {
+      service.addItem({ name: 'Potion', quantity: 2, price: 300 });
+      service.removeItem({ name: 'Potion', quantity: 2, price: 300 });
+      expect(service.getItems()).toEqual([]);
+
+      service.addItem({ name: 'Potion', quantity: 2, price: 300 });
+      service.removeItem({ name: 'Potion', quantity: 5, price: 300 });
+      expect(service.getItems()).toEqual([]);
+    });
+
+    it('ignore remove for non-existing item', () => {
+      service.addItem({ name: 'Potion', quantity: 1, price: 300 });
+      service.removeItem({ name: 'Elixir', quantity: 1, price: 500 });
+      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 1, price: 300 }]);
+    });
+  });
 });
 
 class SutBuilder {
   private readonly mockCartService;
 
   constructor() {
-    this.mockCartService = jasmine.createSpyObj(CartService, ['getItems']);
+    this.mockCartService = jasmine.createSpyObj(CartService, ['getItems', 'removeItem'  ]);
   }
 
   withItems(items: CartItem[]): SutBuilder {

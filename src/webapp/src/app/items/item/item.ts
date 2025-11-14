@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { CartItem } from '../../cart/cart.model';
+import { CartItem } from '../../cart/cart-item/cart-item.model';
 
 @Component({
   selector: 'app-item',

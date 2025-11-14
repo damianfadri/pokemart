@@ -1,0 +1,22 @@
+<div class="flex items-center justify-between mb-2">
+  <div class="flex items-center space-x-3">
+    <div class="w-8 h-8 bg-cream-500 rounded flex items-center justify-center text-gray-400 relative group overflow-hidden">
+      <span class="pointer-events-none">img</span>
+      <button type="button" aria-label="Remove item" class="absolute inset-0 flex items-center justify-center bg-pumpkin-500 bg-opacity-0 group-hover:bg-opacity-40 text-white opacity-0 group-hover:opacity-100 transition cursor-pointer" (click)="removeFromCart()">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+            <path d="M10 11v6"></path>
+            <path d="M14 11v6"></path>
+            <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </button>
+    </div>
+    <span data-testid="cart-item-name" class="font-medium">{{ name() }}</span>
+    <span data-testid="cart-item-quantity" class="text-sm text-gray-500">×{{ quantity() }}</span>
+  </div>
+
+  <div class="flex items-center space-x-3">
+    <div data-testid="cart-item-price" class="font-semibold">₽{{ total() }}</div>
+  </div>
+</div>

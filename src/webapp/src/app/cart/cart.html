@@ -7,14 +7,7 @@
 
     <div data-testid="cart-items">
     @for (item of items(); track item.name) {
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 bg-cream-500 rounded flex items-center justify-center text-gray-400">img</div>
-          <span data-testid="cart-item-name">{{ item.name }}</span>
-          <span data-testid="cart-item-quantity">×{{ item.quantity }}</span>
-        </div>
-        <div data-testid="cart-item-price">₽{{ item.price }}</div>
-      </div>
+      <app-cart-item [name]="item.name" [price]="item.price" [quantity]="item.quantity"></app-cart-item>
     }
     </div>
 
