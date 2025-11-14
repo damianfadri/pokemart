@@ -16,8 +16,4 @@ export class CartComponent {
 
   totalPrice = computed(() => 
     this.items().reduce((total, item) => total + item.price * item.quantity, 0));
-
-  onRemoveFromCart(item: CartItem) {
-    this.cartService.removeItem(item);
-  }
 }

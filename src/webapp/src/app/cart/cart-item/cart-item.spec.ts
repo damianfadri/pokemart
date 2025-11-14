@@ -96,7 +96,7 @@ describe('CartItem', () => {
     });
   });
 
-  describe('onClickRemove should', () => {
+  describe('removeFromCart should', () => {
     it('emit removeFromCart output with the correct item', () => {
 
       const fixture = new SutBuilder()
@@ -105,12 +105,12 @@ describe('CartItem', () => {
         .withQuantity(2)
         .build();
 
-      spyOn(fixture.componentInstance.removeFromCart, 'emit');
+      spyOn(fixture.componentInstance.cartService, 'removeItem');
 
       fixture.detectChanges();
-      fixture.componentInstance.onClickRemove();
+      fixture.componentInstance.removeFromCart();
 
-      expect(fixture.componentInstance.removeFromCart.emit).toHaveBeenCalledWith({
+      expect(fixture.componentInstance.cartService.removeItem).toHaveBeenCalledWith({
         name: 'Hyper Potion',
         price: 1200,
         quantity: 2

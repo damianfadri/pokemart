@@ -5,6 +5,9 @@ import { CartItem } from './cart-item/cart-item.model';
 export class CartService {
   private cartItems = signal<CartItem[]>([]);
 
+  constructor() {
+  }
+
   getItems() {
     return this.cartItems();
   }

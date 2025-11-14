@@ -1,5 +1,6 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { CartItem } from './cart-item.model';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-cart-item',
@@ -14,10 +15,10 @@ export class CartItemComponent {
 
   total = computed(() => this.price() * this.quantity());
 
-  removeFromCart = output<CartItem>();
+  cartService = inject(CartService);
 
-  onClickRemove() {
-    this.removeFromCart.emit({
+  removeFromCart() {
+    this.cartService.removeItem({
       name: this.name(),
       price: this.price(),
       quantity: this.quantity()
