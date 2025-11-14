@@ -4,7 +4,7 @@ import { ItemsComponent } from './items';
 import { ItemsService } from './items.service';
 import { Item } from './item/item.model';
 import { CartService } from '../cart/cart.service';
-import { CartItem } from '../cart/cart.model';
+import { CartItem } from '../cart/cart-item/cart-item.model';
 
 describe('Items', () => {
   describe('items should', () => {
