@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { CartItem } from './cart-item.model';
+import { CartItem } from './cart.model';
+import { CartService } from './cart.service';
 
 const defaultCartItems: CartItem[] = [
   { name: 'Potion', quantity: 1, price: 300 },
@@ -13,9 +14,13 @@ const defaultCartItems: CartItem[] = [
   styleUrl: './cart.css',
 })
 export class CartComponent {
-  cartItems = signal<CartItem[]>(defaultCartItems);
+  cartService = inject(CartService);
+
+  get items(): CartItem[] {
+    return this.cartService.getItems();
+  }
 
   get totalPrice(): number {
-    return this.cartItems().reduce((total, item) => total + item.price * item.quantity, 0);
+    return this.items.reduce((total, item) => total + item.price * item.quantity, 0);
   }
 }

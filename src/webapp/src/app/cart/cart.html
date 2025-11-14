@@ -1,15 +1,21 @@
 <h2 class="text-2xl font-semibold mb-3">Cart</h2>
 <div class="space-y-3 text-lg">
 
-    @for (item of cartItems(); track item.name) {
-    <div class="flex justify-between">
+  @if (items.length === 0) {
+    <div class="py-6 text-center text-gray-600 italic">Your cart is empty.</div>
+  } @else {
+
+    @for (item of items; track item.name) {
+      <div class="flex justify-between">
         <div>{{ item.name }} ×{{ item.quantity }}</div>
         <div>₽{{ item.price }}</div>
-    </div>
+      </div>
     }
+
     <div class="text-2xl border-t pt-3 flex justify-between font-semibold">
-    <div>Total</div>
-    <div>₽{{ totalPrice }}</div>
+      <div>Total</div>
+      <div>₽{{ totalPrice }}</div>
     </div>
     <button class="text-lg mt-4 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded">Checkout</button>
+  }
 </div>
