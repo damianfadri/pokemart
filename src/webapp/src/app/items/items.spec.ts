@@ -71,26 +71,6 @@ describe('Items', () => {
       expect(fixture.componentInstance.count()).toBe(0);
     });
   });
-
-  describe('onAddToCart should', () => {
-    it('call cartService.addItem with the correct item', async () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
-
-      fixture.componentInstance.onAddToCart({ 
-        name: 'Potion', 
-        quantity: 1, 
-        price: 300 });
-
-      expect(fixture.componentInstance.cartService.addItem)
-        .toHaveBeenCalledWith({ 
-          name: 'Potion', 
-          quantity: 1, 
-          price: 300 
-        });
-    });
-  });
 });
 
 class SutBuilder {

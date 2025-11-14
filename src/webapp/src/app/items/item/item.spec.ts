@@ -4,12 +4,11 @@ import { ItemComponent } from './item';
 import { input } from '@angular/core';
 
 describe('Item', () => {
-
   describe('item should', () => {
     it('be initialized', () => {
       const fixture = new SutBuilder()
         .withName('Potion')
-        .withPrice(100)
+        .withPrice(300)
         .withCategory('Healing')
         .withDescription('Something')
         .build();
@@ -22,7 +21,7 @@ describe('Item', () => {
     it('render name', () => {
       const fixture = new SutBuilder()
         .withName('Potion')
-        .withPrice(100)
+        .withPrice(300)
         .withCategory('Healing')
         .withDescription('Heals 20 HP')
         .build();
@@ -50,7 +49,7 @@ describe('Item', () => {
     it('render category', () => {
       const fixture = new SutBuilder()
         .withName('Potion')
-        .withPrice(100)
+        .withPrice(300)
         .withCategory('Healing')
         .withDescription('Heals 20 HP')
         .build();
@@ -59,6 +58,28 @@ describe('Item', () => {
 
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=item-category')?.textContent).toContain('Healing');
+    });
+  });
+
+  describe('addToCart should', () => {
+    it('call cartService.addItem with the correct item', async () => {
+      const fixture = new SutBuilder()
+        .withName('Potion')
+        .withPrice(300)
+        .withCategory('Healing')
+        .withDescription('Heals 20 HP')
+        .build();
+
+      spyOn(fixture.componentInstance.cartService, 'addItem');
+
+      fixture.componentInstance.addToCart();
+
+      expect(fixture.componentInstance.cartService.addItem)
+        .toHaveBeenCalledWith({ 
+          name: 'Potion', 
+          quantity: 1, 
+          price: 300 
+        });
     });
   });
 });

@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { CartItem } from '../../cart/cart-item/cart-item.model';
 import { Item } from './item.model';
+import { CartService } from '../../cart/cart.service';
 
 @Component({
   selector: 'app-item',
@@ -11,10 +12,10 @@ import { Item } from './item.model';
 export class ItemComponent {
   item = input.required<Item>();
 
-  addToCart = output<CartItem>();
+  cartService = inject(CartService);
 
-  onAdd() {
-    this.addToCart.emit({
+  addToCart() {
+    this.cartService.addItem({
       name: this.item().name,
       quantity: 1,
       price: this.item().price
