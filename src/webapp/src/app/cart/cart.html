@@ -7,7 +7,7 @@
 
     <div data-testid="cart-items">
     @for (item of items(); track item.name) {
-      <app-cart-item [name]="item.name" [price]="item.price" [quantity]="item.quantity"></app-cart-item>
+      <app-cart-item [name]="item.name" [price]="item.price" [quantity]="item.quantity" (removeFromCart)="onRemoveFromCart($event)"></app-cart-item>
     }
     </div>
 

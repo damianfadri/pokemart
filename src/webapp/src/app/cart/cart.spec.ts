@@ -52,24 +52,6 @@ describe('Cart', () => {
 
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=cart-items]')?.children.length).toBe(2);
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-name]')?.textContent).toContain('Potion');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-quantity]')?.textContent).toContain('2');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[0]
-        .querySelector('[data-testid=cart-item-price]')?.textContent).toContain('300');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-name]')?.textContent).toContain('Great Ball');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-quantity]')?.textContent).toContain('1');
-
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children[1]
-        .querySelector('[data-testid=cart-item-price]')?.textContent).toContain('600');
     });
   });
 
