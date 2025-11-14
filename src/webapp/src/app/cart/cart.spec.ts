@@ -79,7 +79,7 @@ describe('Cart', () => {
         .withItems([])
         .build();
 
-      expect(fixture.componentInstance.totalPrice).toBe(0);
+      expect(fixture.componentInstance.totalPrice()).toBe(0);
     });
 
     it('return the total price of items in the cart', async () => {
@@ -90,7 +90,7 @@ describe('Cart', () => {
         ])
         .build();
 
-      expect(fixture.componentInstance.totalPrice).toBe(1200);
+      expect(fixture.componentInstance.totalPrice()).toBe(1200);
     });
 
     it('render the total price of items in the cart', async () => {
