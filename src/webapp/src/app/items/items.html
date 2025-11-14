@@ -9,7 +9,8 @@
       [name]="item.name"
       [category]="item.category"
       [description]="item.description"
-      [price]="item.price">
+      [price]="item.price"
+      (addToCart)="onAddToCart($event)">
     </app-item>
   }
 </div>
