@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CartItem } from './cart.model';
 import { CartService } from './cart.service';
 
@@ -11,11 +11,9 @@ import { CartService } from './cart.service';
 export class CartComponent {
   cartService = inject(CartService);
 
-  get items(): CartItem[] {
-    return this.cartService.getItems();
-  }
+  items = computed(() => this.cartService.getItems());
 
   get totalPrice(): number {
-    return this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return this.items().reduce((total, item) => total + item.price * item.quantity, 0);
   }
 }
