@@ -1,5 +1,4 @@
 import { Component, input, output } from '@angular/core';
-import { Item } from './item.model';
 import { CartItem } from '../../cart/cart.model';
 
 @Component({

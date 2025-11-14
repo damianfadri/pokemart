@@ -1,6 +1,6 @@
 import { Component, computed, inject, resource } from '@angular/core';
 import { ItemsService } from './items.service';
-import { ItemComponent } from './item/item.component';
+import { ItemComponent } from './item/item';
 import { CartItem } from '../cart/cart.model';
 import { CartService } from '../cart/cart.service';
 
