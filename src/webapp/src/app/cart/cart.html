@@ -6,8 +6,11 @@
   } @else {
 
     @for (item of items; track item.name) {
-      <div class="flex justify-between">
-        <div>{{ item.name }} ×{{ item.quantity }}</div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-cream-500 rounded flex items-center justify-center text-gray-400">img</div>
+          <div>{{ item.name }} ×{{ item.quantity }}</div>
+        </div>
         <div>₽{{ item.price }}</div>
       </div>
     }
