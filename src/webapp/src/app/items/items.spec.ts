@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ItemsComponent } from './items';
 import { ItemsService } from './items.service';
 import { Item } from './item/item.model';
+import { CartService } from '../cart/cart.service';
+import { CartItem } from '../cart/cart.model';
 
 describe('Items', () => {
   describe('items should', () => {
@@ -69,13 +71,35 @@ describe('Items', () => {
       expect(fixture.componentInstance.count()).toBe(0);
     });
   });
+
+  describe('onAddToCart should', () => {
+    it('call cartService.addItem with the correct item', async () => {
+      const fixture = new SutBuilder()
+        .withItems([])
+        .build();
+
+      fixture.componentInstance.onAddToCart({ 
+        name: 'Potion', 
+        quantity: 1, 
+        price: 300 });
+
+      expect(fixture.componentInstance.cartService.addItem)
+        .toHaveBeenCalledWith({ 
+          name: 'Potion', 
+          quantity: 1, 
+          price: 300 
+        });
+    });
+  });
 });
 
 class SutBuilder {
   private readonly mockItemsService;
+  private readonly mockCartService;
 
   constructor() {
     this.mockItemsService = jasmine.createSpyObj(ItemsService, ['getItems']);
+    this.mockCartService = jasmine.createSpyObj(CartService, ['addItem']);
   }
   
   withItems(items: Item[]): SutBuilder {
@@ -86,7 +110,11 @@ class SutBuilder {
   build(): ComponentFixture<ItemsComponent> {
     TestBed.configureTestingModule({
       imports: [ItemsComponent],
-      providers: [{ provide: ItemsService, useValue: this.mockItemsService }],
+      providers: [{ 
+        provide: ItemsService, useValue: this.mockItemsService
+      }, {
+        provide: CartService, useValue: this.mockCartService
+      }],
     });
 
     return TestBed.createComponent(ItemsComponent);
