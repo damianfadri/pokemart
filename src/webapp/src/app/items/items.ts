@@ -1,6 +1,8 @@
 import { Component, computed, inject, resource } from '@angular/core';
 import { ItemsService } from './items.service';
-import { ItemComponent } from './item/item.component';
+import { ItemComponent } from './item/item';
+import { CartItem } from '../cart/cart.model';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-items',
@@ -10,6 +12,7 @@ import { ItemComponent } from './item/item.component';
 })
 export class ItemsComponent {
   itemsService = inject(ItemsService);
+  cartService = inject(CartService);
   
   items = resource({
     loader: () => this.itemsService.getItems()
@@ -22,4 +25,8 @@ export class ItemsComponent {
 
     return 0;
   });
+
+  onAddToCart(item: CartItem) {
+    this.cartService.addItem(item);
+  }
 }
