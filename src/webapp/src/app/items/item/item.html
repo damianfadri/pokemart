@@ -1,10 +1,12 @@
 <article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
-  <div class="h-32 bg-cream-500 rounded flex items-center justify-center text-gray-400">Image</div>
+  <div class="h-32 bg-cream-500 rounded flex items-center justify-center text-gray-400">
+    <img class="h-24" src="{{ item().uri }}" alt="Image" />
+  </div>
 
-  <h3 class="mt-3 text-sm font-christiana" data-testid="item-name">{{ name() }}</h3>
-  <p class="text-lg text-gray-500" data-testid="item-category">{{ category() }}</p>
+  <h3 class="mt-3 text-sm font-christiana" data-testid="item-name">{{ item().name }}</h3>
+  <p class="text-lg text-gray-500" data-testid="item-category">{{ item().category }}</p>
   <div class="mt-3 flex items-center justify-between">
-    <div class="font-bold text-2xl" data-testid="item-price">₽{{ price() }}</div>
+    <div class="font-bold text-2xl" data-testid="item-price">₽{{ item().price }}</div>
     <button
       class="bg-pumpkin-500 text-gray-800 px-3 font-semibold py-1 rounded text-md cursor-pointer
              transition transform duration-150 ease-in-out

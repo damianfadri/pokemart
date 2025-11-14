@@ -4,50 +4,105 @@ import { ItemComponent } from './item';
 import { input } from '@angular/core';
 
 describe('Item', () => {
-  let component: ItemComponent;
-  let fixture: ComponentFixture<ItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ItemComponent],
+  describe('item should', () => {
+    it('be initialized', () => {
+      const fixture = new SutBuilder()
+        .withName('Potion')
+        .withPrice(100)
+        .withCategory('Healing')
+        .withDescription('Something')
+        .build();
 
-    })
-    .compileComponents();
+      fixture.detectChanges();
 
-    fixture = TestBed.createComponent(ItemComponent);
-    component = fixture.componentInstance;
+      expect(fixture.componentInstance.item().name).toBe('Potion');
+    });
 
-    fixture.componentRef.setInput('name', 'Potion');
-    fixture.componentRef.setInput('price', 300);
-    fixture.componentRef.setInput('category', 'Potions');
-    fixture.componentRef.setInput('description', 'Heals 20 HP');
+    it('render name', () => {
+      const fixture = new SutBuilder()
+        .withName('Potion')
+        .withPrice(100)
+        .withCategory('Healing')
+        .withDescription('Heals 20 HP')
+        .build();
 
-    fixture.detectChanges();
-  });
+      fixture.detectChanges();
 
-  it('should create', () => {
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
-
-  describe('name should', () => {
-    it('be rendered', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=item-name]')?.textContent).toContain('Potion');
     });
-  });
 
-  describe('price should', () => {
-    it('be rendered', () => {
+    it('render price', () => {
+      const fixture = new SutBuilder()
+        .withName('Potion')
+        .withPrice(300)
+        .withCategory('Healing')
+        .withDescription('Heals 20 HP')
+        .build();
+
+      fixture.detectChanges();
+
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=item-price')?.textContent).toContain('300');
     });
-  });
 
-  describe('category should', () => {
-    it('be rendered', () => {
+    it('render category', () => {
+      const fixture = new SutBuilder()
+        .withName('Potion')
+        .withPrice(100)
+        .withCategory('Healing')
+        .withDescription('Heals 20 HP')
+        .build();
+
+      fixture.detectChanges();
+
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=item-category')?.textContent).toContain('Potions');
+      expect(compiled.querySelector('[data-testid=item-category')?.textContent).toContain('Healing');
     });
   });
 });
+
+class SutBuilder {
+  private name: string = '';
+  private price: number = 0;
+  private category: string = '';
+  private description: string = '';
+
+  withName(name: string): SutBuilder {
+    this.name = name;
+    return this;
+  }
+
+  withPrice(price: number): SutBuilder {
+    this.price = price;
+    return this;
+  }
+
+  withCategory(category: string): SutBuilder {
+    this.category = category;
+    return this;
+  }
+
+  withDescription(description: string): SutBuilder {
+    this.description = description;
+    return this;
+  }
+
+  build() : ComponentFixture<ItemComponent> {
+      TestBed.configureTestingModule({
+      imports: [ItemComponent],
+    });
+    
+    const fixture = TestBed.createComponent(ItemComponent);
+
+    fixture.componentRef.setInput('item', {
+      name: this.name,
+      price: this.price,
+      category: this.category,
+      description: this.description
+    });
+
+    return fixture;
+  }
+}

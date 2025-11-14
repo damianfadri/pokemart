@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CartItem } from '../../cart/cart-item/cart-item.model';
+import { Item } from './item.model';
 
 @Component({
   selector: 'app-item',
@@ -8,18 +9,15 @@ import { CartItem } from '../../cart/cart-item/cart-item.model';
   styleUrl: './item.css',
 })
 export class ItemComponent {
-  name = input.required<string>();
-  category = input.required<string>();
-  price = input.required<number>();
-  description = input.required<string>();
+  item = input.required<Item>();
 
   addToCart = output<CartItem>();
 
   onAdd() {
     this.addToCart.emit({
-      name: this.name(),
+      name: this.item().name,
       quantity: 1,
-      price: this.price()
+      price: this.item().price
     });
   }
 }
