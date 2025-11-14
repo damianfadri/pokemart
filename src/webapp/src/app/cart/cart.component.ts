@@ -2,11 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { CartItem } from './cart.model';
 import { CartService } from './cart.service';
 
-const defaultCartItems: CartItem[] = [
-  { name: 'Potion', quantity: 1, price: 300 },
-  { name: 'Great Ball', quantity: 3, price: 600 },
-];
-
 @Component({
   selector: 'app-cart',
   imports: [],
