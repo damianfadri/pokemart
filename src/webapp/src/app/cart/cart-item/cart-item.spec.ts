@@ -35,7 +35,7 @@ describe('CartItem', () => {
 
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.name()).toBe('Potion');
+      expect(fixture.componentInstance.item().name).toBe('Potion');
     });
 
     it('render the name in the template', () => {
@@ -58,7 +58,7 @@ describe('CartItem', () => {
 
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.price()).toBe(750);
+      expect(fixture.componentInstance.item().price).toBe(750);
     });
 
     it('render the price in the template', () => {
@@ -111,8 +111,10 @@ describe('CartItem', () => {
       fixture.componentInstance.removeFromCart();
 
       expect(fixture.componentInstance.cartService.removeItem).toHaveBeenCalledWith({
-        name: 'Hyper Potion',
-        price: 1200,
+        item: {
+          name: 'Hyper Potion',
+          price: 1200
+        },
         quantity: 2
       });
     });
@@ -120,28 +122,22 @@ describe('CartItem', () => {
 });
 
 class SutBuilder {
-  private mockName: string;
-  private mockPrice: number;
-  private mockQuantity: number;
-
-  constructor() {
-    this.mockName = 'Potion';
-    this.mockPrice = 300;
-    this.mockQuantity = 1;
-  }
+  private name: string = 'Potion';
+  private price: number = 300;
+  private quantity: number = 1;
 
   withPrice(price: number): SutBuilder {
-    this.mockPrice = price;
+    this.price = price;
     return this;
   }
 
   withQuantity(quantity: number): SutBuilder {
-    this.mockQuantity = quantity;
+    this.quantity = quantity;
     return this;
   }
 
   withName(name: string): SutBuilder {
-    this.mockName = name;
+    this.name = name;
     return this;
   }
 
@@ -152,9 +148,12 @@ class SutBuilder {
 
     const fixture = TestBed.createComponent(CartItemComponent);
 
-    fixture.componentRef.setInput('name', this.mockName);
-    fixture.componentRef.setInput('price', this.mockPrice);
-    fixture.componentRef.setInput('quantity', this.mockQuantity);
+    fixture.componentRef.setInput('item', {
+      name: this.name,
+      price: this.price
+    });
+
+    fixture.componentRef.setInput('quantity', this.quantity);
     return fixture;
   }
 }

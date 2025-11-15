@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CartItem } from './cart-item/cart-item.model';
 import { CartService } from './cart.service';
 import { CartItemComponent } from './cart-item/cart-item';
 
@@ -15,5 +14,5 @@ export class CartComponent {
   items = computed(() => this.cartService.getItems());
 
   totalPrice = computed(() => 
-    this.items().reduce((total, item) => total + item.price * item.quantity, 0));
+    this.items().reduce((total, item) => total + item.item.price * item.quantity, 0));
 }

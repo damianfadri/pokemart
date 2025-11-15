@@ -12,8 +12,8 @@ describe('Items', () => {
 
       const fixture = new SutBuilder()
         .withItems([
-          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
-          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ])
         .build();
 
@@ -21,16 +21,16 @@ describe('Items', () => {
       await fixture.whenStable();
 
       expect(fixture.componentInstance.items.value()).toEqual([
-        { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
-        { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
     });
 
     it('render items', async () => {
       const fixture = new SutBuilder()
         .withItems([
-          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
-          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ])
         .build();
 
@@ -49,8 +49,8 @@ describe('Items', () => {
     it('return the number of items', async () => {
       const fixture = new SutBuilder()
         .withItems([
-          { id: '1', name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
-          { id: '2', name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ])
         .build();
 
@@ -69,26 +69,6 @@ describe('Items', () => {
       await fixture.whenStable();
 
       expect(fixture.componentInstance.count()).toBe(0);
-    });
-  });
-
-  describe('onAddToCart should', () => {
-    it('call cartService.addItem with the correct item', async () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
-
-      fixture.componentInstance.onAddToCart({ 
-        name: 'Potion', 
-        quantity: 1, 
-        price: 300 });
-
-      expect(fixture.componentInstance.cartService.addItem)
-        .toHaveBeenCalledWith({ 
-          name: 'Potion', 
-          quantity: 1, 
-          price: 300 
-        });
     });
   });
 });

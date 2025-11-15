@@ -17,15 +17,15 @@ describe('Cart', () => {
     it('return items in the cart', async () => {
       const fixture = new SutBuilder()
         .withItems([
-          { name: 'Potion', quantity: 2, price: 300 },
-          { name: 'Great Ball', quantity: 1, price: 600 }
+          { item: { name: 'Potion', price: 300 }, quantity: 2, },
+          { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
         ])
         .build();
 
         expect(fixture.componentInstance.items())
         .toEqual([
-          { name: 'Potion', quantity: 2, price: 300 },
-          { name: 'Great Ball', quantity: 1, price: 600 }
+          { item: { name: 'Potion', price: 300 }, quantity: 2, },
+          { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
         ]);
     });
 
@@ -43,8 +43,8 @@ describe('Cart', () => {
     it('render items in the cart', () => {
       const fixture = new SutBuilder()
         .withItems([
-          { name: 'Potion', quantity: 2, price: 300 },
-          { name: 'Great Ball', quantity: 1, price: 600 }
+          { item: { name: 'Potion', price: 300 }, quantity: 2, },
+          { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
         ])
         .build();
 
@@ -67,8 +67,8 @@ describe('Cart', () => {
     it('return the total price of items in the cart', async () => {
       const fixture = new SutBuilder()
         .withItems([
-          { name: 'Potion', quantity: 2, price: 300 },
-          { name: 'Great Ball', quantity: 1, price: 600 }
+          { item: { name: 'Potion', price: 300 }, quantity: 2, },
+          { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
         ])
         .build();
 
@@ -78,8 +78,8 @@ describe('Cart', () => {
     it('render the total price of items in the cart', async () => {
       const fixture = new SutBuilder()
         .withItems([
-          { name: 'Potion', quantity: 2, price: 300 },
-          { name: 'Great Ball', quantity: 1, price: 600 }
+          { item: { name: 'Potion', price: 300 }, quantity: 2, },
+          { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
         ])
         .build();
 
@@ -110,42 +110,42 @@ describe('CartService', () => {
 
   describe('addItem should', () => {
     it('add a new item when not present', () => {
-      const item: CartItem = { name: 'Potion', quantity: 1, price: 300 };
+      const item: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
       service.addItem(item);
       expect(service.getItems()).toEqual([item]);
     });
 
     it('increment quantity when adding an existing item', () => {
-      const item1: CartItem = { name: 'Potion', quantity: 2, price: 300 };
-      const item2: CartItem = { name: 'Potion', quantity: 1, price: 300 };
+      const item1: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 2 };
+      const item2: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
       service.addItem(item1);
       service.addItem(item2);
 
-      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 3, price: 300 }]);
+      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 3 }]);
     });
   });
 
   describe('removeItem should', () => {
     it('decrement quantity when removing less than existing', () => {
-      service.addItem({ name: 'Potion', quantity: 3, price: 300 });
-      service.removeItem({ name: 'Potion', quantity: 1, price: 300 });
-      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 2, price: 300 }]);
+      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 3 });
+      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
+      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 2 }]);
     });
 
     it('remove item completely when removing equal or more quantity', () => {
-      service.addItem({ name: 'Potion', quantity: 2, price: 300 });
-      service.removeItem({ name: 'Potion', quantity: 2, price: 300 });
+      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
+      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
       expect(service.getItems()).toEqual([]);
 
-      service.addItem({ name: 'Potion', quantity: 2, price: 300 });
-      service.removeItem({ name: 'Potion', quantity: 5, price: 300 });
+      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
+      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 5 });
       expect(service.getItems()).toEqual([]);
     });
 
     it('ignore remove for non-existing item', () => {
-      service.addItem({ name: 'Potion', quantity: 1, price: 300 });
-      service.removeItem({ name: 'Elixir', quantity: 1, price: 500 });
-      expect(service.getItems()).toEqual([{ name: 'Potion', quantity: 1, price: 300 }]);
+      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
+      service.removeItem({ item: { name: 'Elixir', price: 500 }, quantity: 1 });
+      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 1 }]);
     });
   });
 });
