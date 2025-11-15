@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemComponent } from './item';
 import { input } from '@angular/core';
+import { Item } from './item.model';
 
 describe('Item', () => {
   describe('item should', () => {
@@ -64,10 +65,9 @@ describe('Item', () => {
   describe('addToCart should', () => {
     it('call cartService.addItem with the correct item', async () => {
       const fixture = new SutBuilder()
+        .withId('1')
         .withName('Potion')
         .withPrice(300)
-        .withCategory('Healing')
-        .withDescription('Heals 20 HP')
         .build();
 
       spyOn(fixture.componentInstance.cartService, 'addItem');
@@ -76,19 +76,28 @@ describe('Item', () => {
 
       expect(fixture.componentInstance.cartService.addItem)
         .toHaveBeenCalledWith({ 
-          name: 'Potion', 
+          item: {
+            id: '1',
+            name: 'Potion',
+            price: 300
+          },
           quantity: 1, 
-          price: 300 
         });
     });
   });
 });
 
 class SutBuilder {
-  private name: string = '';
-  private price: number = 0;
-  private category: string = '';
-  private description: string = '';
+  private id: string = '1';
+  private name: string = 'Potion';
+  private price: number = 300;
+  private category?: string;
+  private description?: string;
+
+  withId(id: string): SutBuilder {
+    this.id = id;
+    return this;
+  }
 
   withName(name: string): SutBuilder {
     this.name = name;
@@ -117,12 +126,21 @@ class SutBuilder {
     
     const fixture = TestBed.createComponent(ItemComponent);
 
-    fixture.componentRef.setInput('item', {
+    const item: Item = {
+      id: this.id,
       name: this.name,
       price: this.price,
-      category: this.category,
-      description: this.description
-    });
+    };
+
+    if (this.category) {
+      item.category = this.category;
+    }
+
+    if (this.description) {
+      item.description = this.description;
+    }
+
+    fixture.componentRef.setInput('item', item);
 
     return fixture;
   }

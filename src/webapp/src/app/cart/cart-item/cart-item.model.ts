@@ -1,5 +1,6 @@
+import { Item } from "../../items/item/item.model";
+
 export interface CartItem {
-  name: string;
+  item: Item,
   quantity: number;
-  price: number;
 }

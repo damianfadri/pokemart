@@ -16,9 +16,8 @@ export class ItemComponent {
 
   addToCart() {
     this.cartService.addItem({
-      name: this.item().name,
-      quantity: 1,
-      price: this.item().price
+      item: this.item(),
+      quantity: 1
     });
   }
 }
