@@ -13,8 +13,8 @@ describe('CartItem', () => {
     fixture = TestBed.createComponent(CartItemComponent);
   });
 
-  describe('total should', () => {
-    it('return price multiplied by quantity', () => {
+  describe('total()', () => {
+    it('should return price multiplied by quantity', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -25,7 +25,7 @@ describe('CartItem', () => {
       expect(fixture.componentInstance.total()).toBe(1500);
     });
 
-    it('return zero when quantity is zero', () => {
+    it('should return 0 when quantity is 0', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -37,8 +37,8 @@ describe('CartItem', () => {
     });
   });
 
-  describe('item should', () => {
-    it('return the item input', () => {
+  describe('item()', () => {
+    it('should return the item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -53,7 +53,7 @@ describe('CartItem', () => {
         });
     });
 
-    it('render the item', () => {
+    it('should render the item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -71,8 +71,8 @@ describe('CartItem', () => {
     });
   });
 
-  describe('quantity should', () => {
-    it('return the quantity input', () => {
+  describe('quantity()', () => {
+    it('should return the quantity', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -83,7 +83,7 @@ describe('CartItem', () => {
       expect(fixture.componentInstance.quantity()).toBe(5);
     });
 
-    it('render the quantity in the template', () => {
+    it('should render the quantity', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300
@@ -99,8 +99,8 @@ describe('CartItem', () => {
     });
   });
 
-  describe('removeFromCart should', () => {
-    it('emit removeFromCart output with the correct item', () => {
+  describe('removeFromCart()', () => {
+    it('should call cartService.removeItem() with the correct item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300

@@ -16,15 +16,15 @@ describe('Cart', () => {
     fixture = TestBed.createComponent(CartComponent);
   });
 
-  describe('items should', () => {
-    it('return empty array when cart is empty', () => {
+  describe('items()', () => {
+    it('should return empty array when cart is empty', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
         .and.returnValue([]);
 
       expect(fixture.componentInstance.items()).toEqual([]);
     });
 
-    it('return items in the cart', () => {
+    it('should return items in cart', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
         .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
@@ -38,7 +38,7 @@ describe('Cart', () => {
         ]);
     });
 
-    it('render no items when cart is empty', () => {
+    it('should render cart is empty message when no items in cart', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
           .and.returnValue([]);
 
@@ -49,7 +49,7 @@ describe('Cart', () => {
         .toBe("Your cart is empty.");
     });
 
-    it('render items in the cart', () => {
+    it('should render items in the cart', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
         .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
@@ -64,8 +64,8 @@ describe('Cart', () => {
     });
   });
 
-  describe('totalPrice should', () => {
-    it('return 0 when cart is empty', () => {
+  describe('totalPrice()', () => {
+    it('should return 0 when cart is empty', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
           .and.returnValue([]);
 
@@ -73,7 +73,7 @@ describe('Cart', () => {
         .toBe(0);
     });
 
-    it('return the total price of items in the cart', () => {
+    it('should return the total price of items in the cart', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
         .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
@@ -84,7 +84,7 @@ describe('Cart', () => {
         .toBe(1200);
     });
 
-    it('render the total price of items in the cart', () => {
+    it('should render the total price', () => {
       spyOn(fixture.componentInstance.cartService, 'getItems')
         .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
@@ -111,50 +111,156 @@ describe('CartService', () => {
     service = TestBed.inject(CartService);
   });
 
-  describe('constructor should', () => {
-    it('start empty', () => {
-      expect(service.getItems()).toEqual([]);
+  describe('constructor()', () => {
+    it('should start empty', () => {
+      expect(service.getItems())
+        .toEqual([]);
     });
   });
 
-  describe('addItem should', () => {
-    it('add a new item when not present', () => {
-      const item: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
-      service.addItem(item);
-      expect(service.getItems()).toEqual([item]);
+  describe('addItem()', () => {
+    it('should add a new item if item is not in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 1 
+        }]);
     });
 
-    it('increment quantity when adding an existing item', () => {
-      const item1: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 2 };
-      const item2: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
-      service.addItem(item1);
-      service.addItem(item2);
+    it('should increment quantity if item is in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 2
+      });
 
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 3 }]);
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 3
+        }]);
     });
   });
 
-  describe('removeItem should', () => {
-    it('decrement quantity when removing less than existing', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 3 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 2 }]);
+  describe('removeItem()', () => {
+    it('should decrement quantity if item is in cart and cart quantity is greater', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 3
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+      
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 2
+        }]);
     });
 
-    it('remove item completely when removing equal or more quantity', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      expect(service.getItems()).toEqual([]);
+    it('should remove item if item is in cart and cart quantity is equal', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
 
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 5 });
-      expect(service.getItems()).toEqual([]);
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1
+      });
+
+      expect(service.getItems())
+        .toEqual([]);
     });
 
-    it('ignore remove for non-existing item', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
-      service.removeItem({ item: { name: 'Elixir', price: 500 }, quantity: 1 });
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 1 }]);
+    it('should remove item if item is in cart and cart quantity is less', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 2
+      });
+
+      expect(service.getItems())
+        .toEqual([]);
+    });
+
+    it('should ignore remove if item is not in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Elixir', 
+          price: 500 
+        }, 
+        quantity: 1
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 1 
+        }]);
     });
   });
 });
