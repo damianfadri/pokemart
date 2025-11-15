@@ -1,8 +1,23 @@
 <h2 class="text-2xl font-semibold mb-3">Categories</h2>
 <ul class="space-y-2 text-lg">
-  <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500" routerLink="." [queryParams]="{ q: 'all' }">All</button></li>
-  <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500" routerLink="." [queryParams]="{ q: 'pokeballs' }">Poké Balls</button></li>
-  <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500" routerLink="." [queryParams]="{ q: 'healing' }">Potions</button></li>
+  <li>
+    <label for="cat-pokeballs" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
+      <input id="cat-pokeballs" name="categories" type="checkbox" value="pokeballs" class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded" />
+      <span class="select-none">Poké Balls</span>
+    </label>
+  </li>
+  <li>
+    <label for="cat-healing" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
+      <input id="cat-healing" name="categories" type="checkbox" value="medicine" class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded" />
+      <span class="select-none">Medicine</span>
+    </label>
+  </li>
+  <li>
+    <label for="cat-items" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
+      <input id="cat-items" name="categories" type="checkbox" value="items" class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded" />
+      <span class="select-none">Items</span>
+    </label>
+  </li>
 </ul>
 
 <div class="mt-6">
