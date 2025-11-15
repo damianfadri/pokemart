@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersComponent } from './filters';
-import { Item } from '../items/item/item.model';
 import { ItemsService } from '../items/items.service';
 import { FiltersService } from './filters.service';
 
