@@ -6,7 +6,7 @@
   } @else {
 
     <div data-testid="cart-items">
-    @for (item of items(); track item.item.id) {
+    @for (item of items(); track item.item.name) {
       <app-cart-item [item]="item.item" [quantity]="item.quantity"></app-cart-item>
     }
     </div>

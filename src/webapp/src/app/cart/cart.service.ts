@@ -13,10 +13,10 @@ export class CartService {
   }
 
   addItem(item: CartItem) {
-    const existingItem = this.cartItems().find(i => i.item.id === item.item.id);
+    const existingItem = this.cartItems().find(i => i.item.name === item.item.name);
     if (existingItem) {
       this.cartItems.update(items => 
-        items.map(i => i.item.id === item.item.id ? { ...i, quantity: i.quantity + item.quantity } : i));
+        items.map(i => i.item.name === item.item.name ? { ...i, quantity: i.quantity + item.quantity } : i));
     }
     else {
       this.cartItems.update(items => [...items, item]);
@@ -24,14 +24,14 @@ export class CartService {
   }
 
   removeItem(item: CartItem) {
-    const existingItem = this.cartItems().find(i => i.item.id === item.item.id);
+    const existingItem = this.cartItems().find(i => i.item.name === item.item.name);
     if (existingItem) {
       if (existingItem.quantity > item.quantity) {
         this.cartItems.update(items => 
-          items.map(i => i.item.id === item.item.id ? { ...i, quantity: i.quantity - item.quantity } : i));
+          items.map(i => i.item.name === item.item.name ? { ...i, quantity: i.quantity - item.quantity } : i));
       } else {
         this.cartItems.update(items => 
-          items.filter(i => i.item.id !== item.item.id));
+          items.filter(i => i.item.name !== item.item.name));
       }
     }
   }

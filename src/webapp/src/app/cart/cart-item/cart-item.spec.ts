@@ -112,7 +112,6 @@ describe('CartItem', () => {
 
       expect(fixture.componentInstance.cartService.removeItem).toHaveBeenCalledWith({
         item: {
-          id: '1',
           name: 'Hyper Potion',
           price: 1200
         },
@@ -123,15 +122,9 @@ describe('CartItem', () => {
 });
 
 class SutBuilder {
-  private id: string = '1';
   private name: string = 'Potion';
   private price: number = 300;
   private quantity: number = 1;
-
-  withId(id: string) : SutBuilder {
-    this.id = id;
-    return this;
-  }
 
   withPrice(price: number): SutBuilder {
     this.price = price;
@@ -156,7 +149,6 @@ class SutBuilder {
     const fixture = TestBed.createComponent(CartItemComponent);
 
     fixture.componentRef.setInput('item', {
-      id: this.id,
       name: this.name,
       price: this.price
     });

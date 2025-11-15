@@ -65,7 +65,6 @@ describe('Item', () => {
   describe('addToCart should', () => {
     it('call cartService.addItem with the correct item', async () => {
       const fixture = new SutBuilder()
-        .withId('1')
         .withName('Potion')
         .withPrice(300)
         .build();
@@ -77,7 +76,6 @@ describe('Item', () => {
       expect(fixture.componentInstance.cartService.addItem)
         .toHaveBeenCalledWith({ 
           item: {
-            id: '1',
             name: 'Potion',
             price: 300
           },
@@ -88,16 +86,10 @@ describe('Item', () => {
 });
 
 class SutBuilder {
-  private id: string = '1';
   private name: string = 'Potion';
   private price: number = 300;
   private category?: string;
   private description?: string;
-
-  withId(id: string): SutBuilder {
-    this.id = id;
-    return this;
-  }
 
   withName(name: string): SutBuilder {
     this.name = name;
@@ -127,7 +119,6 @@ class SutBuilder {
     const fixture = TestBed.createComponent(ItemComponent);
 
     const item: Item = {
-      id: this.id,
       name: this.name,
       price: this.price,
     };
