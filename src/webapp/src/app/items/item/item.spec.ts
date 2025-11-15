@@ -15,8 +15,8 @@ describe('Item', () => {
     fixture = TestBed.createComponent(ItemComponent);
   });
 
-  describe('item should', () => {
-    it('be initialized', () => {
+  describe('item()', () => {
+    it('should return item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300,
@@ -31,7 +31,7 @@ describe('Item', () => {
         });
     });
 
-    it('render item', () => {
+    it('should render item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300,
@@ -50,8 +50,8 @@ describe('Item', () => {
     });
   });
 
-  describe('addToCart should', () => {
-    it('call cartService.addItem with the correct item', () => {
+  describe('addToCart()', () => {
+    it('should call cartService.addItem() with the correct item', () => {
       fixture.componentRef.setInput('item', {
         name: 'Potion',
         price: 300,
