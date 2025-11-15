@@ -1,6 +1,7 @@
 import { Component, computed, inject, resource } from '@angular/core';
 import { ItemsService } from './items.service';
 import { ItemComponent } from './item/item';
+import { FiltersService } from '../filters/filters.service';
 
 @Component({
   selector: 'app-items',
@@ -10,16 +11,7 @@ import { ItemComponent } from './item/item';
 })
 export class ItemsComponent {
   itemsService = inject(ItemsService);
-  
-  items = resource({
-    loader: () => this.itemsService.getItems()
-  });
 
-  count = computed(() => {
-    if (this.items.hasValue()) {
-      return this.items.value().length;
-    }
-
-    return 0;
-  });
+  items = computed(() => this.itemsService.items());
+  count = computed(() => this.items().length);
 }

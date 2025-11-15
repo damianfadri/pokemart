@@ -10,38 +10,7 @@
 </header>
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <aside class="lg:col-span-3">
-      <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-        <h2 class="text-2xl font-semibold mb-3">Categories</h2>
-        <ul class="space-y-2 text-lg">
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">All</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Poké Balls</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Potions</button></li>
-          <li><button class="w-full text-left px-2 py-1 rounded hover:bg-cream-500">Berries</button></li>
-        </ul>
-
-        <div class="mt-6">
-          <h3 class="text-lg font-medium mb-2">Price</h3>
-          <div class="flex items-center space-x-2 text-sm">
-            <input type="number" placeholder="Min" class="w-1/2 px-2 py-1 border rounded border-pumpkin-500" />
-            <input type="number" placeholder="Max" class="w-1/2 px-2 py-1 border rounded border-pumpkin-500" />
-          </div>
-          <button class="text-lg mt-3 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded">Apply</button>
-        </div>
-      </div>
-    </aside> 
-
-    <section class="lg:col-span-6">
-      <app-items></app-items>
-    </section>
-
-    <aside class="lg:col-span-3">
-      <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-        <app-cart></app-cart>
-      </div>
-    </aside>
-  </div>
+  <router-outlet />
 </main>
 
 <footer class="mt-10 py-6 text-center text-sm text-gray-500">
