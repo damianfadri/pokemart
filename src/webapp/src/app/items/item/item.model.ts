@@ -4,5 +4,10 @@ export interface Item {
     price: number;
     description: string;
     category: string;
-    uri?: string;
+    resources?: ItemResources;
+}
+
+export interface ItemResources {
+    uri: string;
+    spriteUri?: string;
 }
