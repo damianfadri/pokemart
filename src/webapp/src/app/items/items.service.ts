@@ -6,35 +6,35 @@ const defaultItems: Item[] = [
     name: 'Escape Rope',
     description: "The Escape Rope is an item available in all of the handheld Pokémon games to date. It can also be found lying around on the ground within the game, or held by Pokémon with the Ability Pickup. Escape Ropes are used, in places such as caves, to warp back to the last Pokémon Center player healed at (or home if player never healed in Pokémon Center) in Generation I, and the entrance from which the player entered since Generation II.",
     price: 550,
-    category: 'Utility',
+    category: 'Items',
     resources: { uri: 'full/rope.png', spriteUri: 'sprite/rope.png' }
   },
   {
     name: 'Repel',
     description: "Repels are items in the Pokémon series which keeps Wild Pokémon with a level lower than the Pokémon in the front of the party away. It must be used out of battle and the effect of a Repel wears off after walking a hundred steps.",
     price: 350,
-    category: 'Utility',
+    category: 'Items',
     resources: { uri: 'full/repel.png', spriteUri: 'sprite/repel.png' }
   },
   {
     name: 'Super Repel',
     description: "A Super Repel is an item in the Pokémon series which keeps Wild Pokémon with a level lower than the Pokémon in the front of the party away. A Super Repel effect wears out after walking for 200 steps.",
     price: 500,
-    category: 'Utility',
+    category: 'Items',
     resources: { uri: 'full/srepel.png', spriteUri: 'sprite/srepel.png' }
   },
   {
     name: 'Max Repel',
     description: "The Max Repel is an item that can be used to repel wild Pokémon weaker than the front Pokémon of the party away from the player for 250 steps. It must be used outside of battle.",
     price: 700,
-    category: 'Utility',
+    category: 'Items',
     resources: { uri: 'full/mrepel.png', spriteUri: 'sprite/mrepel.png' }
   },
   {
     name: 'Revive',
     description: "A revive is an item that revives your fainted Pokémon by half of its HP. It can be found while digging underground, by picking it up, or purchasing it from shops.",
     price: 1500,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/revive.png', spriteUri: 'sprite/revive.png' }
   },
   {
@@ -69,35 +69,35 @@ const defaultItems: Item[] = [
     name: 'Potion',
     description: "A Potion is an item that heals 20 HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 300,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/potion.png', spriteUri: 'sprite/potion.png' }
   },
   {
     name: 'Super Potion',
     description: "A Super Potion is an upgraded version of the Potion. It is an item that heals 50 HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 700,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/spotion.png', spriteUri: 'sprite/spotion.png' }
   },
   {
     name: 'Hyper Potion',
     description: "A Hyper Potion is an upgraded version of the Super Potion. It is an item that heals a Pokémon by 200 HP. It has no effect on a fainted Pokémon.",
     price: 1200,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/hpotion.png', spriteUri: 'sprite/hpotion.png' }
   },
   {
     name: 'Max Potion',
     description: "The Max Potion is an item that fully restores the HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 2500,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/mpotion.png', spriteUri: 'sprite/mpotion.png' }
   },
   {
     name: 'Full Restore',
     description: "The Full Restore is an item that restores all of the HP of a Pokémon while also healing persisting status ailments.",
     price: 3000,
-    category: 'Potion',
+    category: 'Medicine',
     resources: { uri: 'full/fullrestore.png', spriteUri: 'sprite/fullrestore.png' }
   },
   {
