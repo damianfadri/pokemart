@@ -1,5 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
 import { FiltersService } from './filters.service';
 
 @Component({
@@ -9,9 +8,8 @@ import { FiltersService } from './filters.service';
   styleUrl: './filters.css',
 })
 export class FiltersComponent {
-  route = inject(ActivatedRoute);
   filtersService = inject(FiltersService);
-  
+
   categories = signal<Set<string>>(new Set<string>());
 
   toggled(category: string): boolean {
