@@ -105,6 +105,27 @@ describe('Items', () => {
       expect(fixture.componentInstance.filteredItems()).toEqual([]);
     });
 
+    it('return items with no category if uncategorized', async () => {
+      const fixture = new SutBuilder()
+        .withFilters({
+          categories: ['Uncategorized']
+        })
+        .withItems([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+          { name: 'Unknown Item', price: 1, description: 'An unknown item' }
+        ])
+        .build();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.filteredItems()).toEqual([
+        { name: 'Unknown Item', price: 1, description: 'An unknown item' }
+      ]);
+    });
+
     it('render all items if no filter', async () => {
       const fixture = new SutBuilder()
         .withFilters({})

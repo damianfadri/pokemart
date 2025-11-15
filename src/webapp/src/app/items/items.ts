@@ -32,7 +32,7 @@ export class ItemsComponent {
       }
 
       return items.filter(
-        item => filters.categories?.includes(item.category ?? '')
+        item => filters.categories?.includes(item.category ?? 'Uncategorized')
       )
     }
 
