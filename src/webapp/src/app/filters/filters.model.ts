@@ -1,5 +1,9 @@
 export interface Filters {
     categories?: string[];
-    minPrice?: number;
-    maxPrice?: number;
+    price?: PriceFilter;
+}
+
+export interface PriceFilter {
+    min?: number;
+    max?: number;
 }

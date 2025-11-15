@@ -6,7 +6,7 @@ import { FiltersService } from './filters.service';
 import { WritableSignal } from '@angular/core';
 import { Filters } from './filters.model';
 
-const methodNameUpdate: keyof WritableSignal<Filters | undefined> = 'update';
+const methodNameSet: keyof WritableSignal<Filters | undefined> = 'set';
 const methodNameProducts: keyof ProductsService = 'products';
 const methodNameCategories: keyof ProductsService = 'categories';
 
@@ -94,12 +94,21 @@ describe('Filters', () => {
         new Set<string>(['Category1'])
       );
 
-      spyOn(fixture.componentInstance.filtersService.filters, methodNameUpdate);
+      fixture.componentInstance.minPrice.set(100);
+      fixture.componentInstance.maxPrice.set(300);
+
+      spyOn(fixture.componentInstance.filtersService.filters, methodNameSet);
 
       fixture.componentInstance.onApply();
 
-      expect(fixture.componentInstance.filtersService.filters.update)
-        .toHaveBeenCalled();
+      expect(fixture.componentInstance.filtersService.filters.set)
+        .toHaveBeenCalledWith({
+          categories: ['Category1'],
+          price: {
+            min: 100,
+            max: 300,
+          }
+        });
     });
   });
 
@@ -127,5 +136,73 @@ describe('Filters', () => {
       expect(fixture.componentInstance.categories())
         .toEqual(new Set<string>([ 'Medicines', 'Poké Balls' ]));
     });
+  });
+
+  describe('setMinPrice()', () => {
+    it('should set minPrice', () => {
+      fixture.componentInstance.setMinPrice(100);
+
+      expect(fixture.componentInstance.minPrice())
+        .toBe(100);
+    });
+
+    it('should set minPrice to undefined if 0', () => {
+      fixture.componentInstance.setMinPrice(0);
+
+      expect(fixture.componentInstance.minPrice())
+        .toBe(undefined);
+    });
+
+    it('should set minPrice to undefined if less than 0', () => {
+      fixture.componentInstance.setMinPrice(-1);
+
+      expect(fixture.componentInstance.minPrice())
+        .toBe(undefined);
+    });
+
+    it('should match maxPrice if minPrice is greater', () => {
+      fixture.componentInstance.setMaxPrice(100);
+      fixture.componentInstance.setMinPrice(200);
+
+      expect(fixture.componentInstance.minPrice())
+        .toBe(200);
+
+      expect(fixture.componentInstance.maxPrice())
+        .toBe(200);
+    })
+  });
+
+  describe('setMaxPrice()', () => {
+    it('should set maxPrice', () => {
+      fixture.componentInstance.setMaxPrice(100);
+
+      expect(fixture.componentInstance.maxPrice())
+        .toBe(100);
+    });
+
+    it('should set maxPrice to undefined if 0', () => {
+      fixture.componentInstance.setMaxPrice(0);
+
+      expect(fixture.componentInstance.maxPrice())
+        .toBe(undefined);
+    });
+
+    it('should set minPrice to undefined if less than 0', () => {
+      fixture.componentInstance.setMaxPrice(-1);
+
+      expect(fixture.componentInstance.maxPrice())
+        .toBe(undefined);
+    });
+
+    it('should match minPrice if maxPrice is less', () => {
+      fixture.componentInstance.setMinPrice(200);
+      fixture.componentInstance.setMaxPrice(100);
+
+      expect(fixture.componentInstance.maxPrice())
+        .toBe(100);
+
+      expect(fixture.componentInstance.minPrice())
+        .toBe(100);
+    })
   });
 });
