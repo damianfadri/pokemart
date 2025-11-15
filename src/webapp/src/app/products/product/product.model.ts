@@ -1,12 +1,12 @@
-export interface Item {
+export interface Product {
     name: string;
     price: number;
     description?: string;
     category?: string;
-    resources?: ItemResources;
+    resources?: ProductResources;
 }
 
-export interface ItemResources {
+export interface ProductResources {
     uri: string;
     spriteUri: string;
 }

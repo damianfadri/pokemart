@@ -1,8 +1,8 @@
 import { computed, inject, Injectable, resource } from '@angular/core';
-import { Item } from "./item/item.model";
+import { Product } from "./product/product.model";
 import { FiltersService } from '../filters/filters.service';
 
-const defaultItems: Item[] = [
+const defaultProducts: Product[] = [
   {
     name: 'Escape Rope',
     description: "The Escape Rope is an item available in all of the handheld Pokémon games to date. It can also be found lying around on the ground within the game, or held by Pokémon with the Ability Pickup. Escape Ropes are used, in places such as caves, to warp back to the last Pokémon Center player healed at (or home if player never healed in Pokémon Center) in Generation I, and the entrance from which the player entered since Generation II.",
@@ -146,30 +146,30 @@ const defaultItems: Item[] = [
 ];
 
 @Injectable({ providedIn: 'root' })
-export class ItemsService {
+export class ProductsService {
 
   filtersService = inject(FiltersService);
 
   warehouse = resource({
-    loader: () => Promise.resolve(defaultItems)
+    loader: () => Promise.resolve(defaultProducts)
   });
 
-  items = computed(() => {
+  products = computed(() => {
     if (this.warehouse.hasValue()) {
 
       const filters = this.filtersService.filters();
-      const items = this.warehouse.value();
+      const products = this.warehouse.value();
 
       if (!filters.categories) {
-        return items;
+        return products;
       }
 
       if (filters.categories.length == 0) {
-        return items;
+        return products;
       }
 
-      return items.filter(
-        item => filters.categories?.includes(item.category ?? 'Uncategorized')
+      return products.filter(
+        product => filters.categories?.includes(product.category ?? 'Uncategorized')
       )
     }
 
@@ -178,13 +178,13 @@ export class ItemsService {
 
   categories = computed(() => {
     if (this.warehouse.hasValue()) {
-      const items = this.warehouse.value();
+      const products = this.warehouse.value();
 
-      if (items.length === 0) {
+      if (products.length === 0) {
         return new Set<string>(['Uncategorized']);
       }
       
-      return new Set<string>(items.map(item => item.category ?? 'Uncategorized'));
+      return new Set<string>(products.map(product => product.category ?? 'Uncategorized'));
     }
 
     return new Set<string>(['Uncategorized']);

@@ -1,6 +1,6 @@
-import { Item } from "../../items/item/item.model";
+import { Product } from "../../products/product/product.model";
 
 export interface CartItem {
-  item: Item,
+  product: Product,
   quantity: number;
 }
