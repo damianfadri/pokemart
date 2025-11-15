@@ -16,8 +16,8 @@ describe('Items', () => {
     fixture = TestBed.createComponent(ItemsComponent);
   });
 
-  describe('items should', () => {
-    it('return all items', () => {
+  describe('items()', () => {
+    it('should return all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -33,7 +33,7 @@ describe('Items', () => {
         ]);
     });
 
-    it('return no items if no value', () => {
+    it('should return 0 items if there are no items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([]);
 
@@ -41,7 +41,7 @@ describe('Items', () => {
         .toEqual([]);
     });
 
-    it('render all items', () => {
+    it('should render all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -63,8 +63,8 @@ describe('Items', () => {
     });
   });
 
-  describe('count should', () => {
-    it('return the number of all items', () => {
+  describe('count()', () => {
+    it('should return the count of all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -76,7 +76,7 @@ describe('Items', () => {
         .toBe(3);
     });
 
-    it('return 0 when there are no items', () => {
+    it('should return 0 if there are no items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([]);
 
@@ -97,8 +97,8 @@ describe('ItemsService', () => {
     service = TestBed.inject(ItemsService);
   });
 
-  describe('categories should', () => {
-    it('return unique categories', () => {
+  describe('categories()', () => {
+    it('should return unique categories', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -111,7 +111,7 @@ describe('ItemsService', () => {
         );
     });
 
-    it('add uncategorized if an item has no category', () => {
+    it('should add uncategorized if an item has no category', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -125,7 +125,7 @@ describe('ItemsService', () => {
         );
     });
 
-    it('add uncategorized if no items', () => {
+    it('should add uncategorized if no items', () => {
       spyOn(service.warehouse, 'value').and.returnValue([]);
 
       expect(service.categories())
@@ -135,14 +135,14 @@ describe('ItemsService', () => {
     });
   });
 
-  describe('items should', () => {
-    it('return no items if warehouse is empty', () => {
+  describe('items()', () => {
+    it('should return 0 items if warehouse is empty', () => {
       spyOn(service.warehouse, 'value').and.returnValue([]);
 
       expect(service.items()).toEqual([]);
     });
 
-    it('return all items if no filters', () => {
+    it('should return all items if no filters', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -157,7 +157,7 @@ describe('ItemsService', () => {
         ]);
     });
 
-    it('return filtered items from target category', () => {
+    it('should return filtered items from target category', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Medicines']
       });
@@ -175,7 +175,7 @@ describe('ItemsService', () => {
         ]);
     });
 
-    it('return filtered items from multiple categories', () => {
+    it('should return filtered items from multiple categories', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Medicines', 'Items']
       });
@@ -195,7 +195,7 @@ describe('ItemsService', () => {
         ]);
     })
 
-    it('return no category items if target category is uncategorized', () => {
+    it('should return no category items if target category is uncategorized', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Uncategorized']
       });
