@@ -12,13 +12,10 @@ export class FiltersComponent {
   filtersService = inject(FiltersService);
   itemsService = inject(ItemsService);
 
-  items = resource({
-    loader: () => this.itemsService.getItems()
-  });
-
+  items = computed(() => this.itemsService.items());
   categories = computed(() => {
-    if (this.items.hasValue()) {
-      return new Set<string>(this.items.value().map(item => item.category ?? 'Uncategorized'));
+    if (this.items().length > 0) {
+      return new Set<string>(this.items().map(item => item.category ?? 'Uncategorized'));
     }
 
     return new Set<string>(['Uncategorized']);

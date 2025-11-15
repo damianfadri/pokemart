@@ -21,17 +21,16 @@ describe('Items', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.items.value()).toEqual([
+      expect(fixture.componentInstance.items()).toEqual([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
     });
   });
 
-  describe('filteredItems should', () => {
-    it('return all items if no filter', async () => {
+  describe('items should', () => {
+    it('return all items', async () => {
       const fixture = new SutBuilder()
-        .withFilters({})
         .withItems([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -42,93 +41,25 @@ describe('Items', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.filteredItems()).toEqual([
+      expect(fixture.componentInstance.items()).toEqual([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-      ]);
-    });
-
-    it('return all items if empty categories', async () => {
-      const fixture = new SutBuilder()
-        .withFilters({
-          categories: []
-        })
-        .withItems([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-        ])
-        .build();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.filteredItems()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-      ]);
-    });
-
-    it('return filtered items from target category', async () => {
-      const fixture = new SutBuilder()
-        .withFilters({
-          categories: ['Medicines']
-        })
-        .withItems([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-        ])
-        .build();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.filteredItems()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
       ]);
     });
 
     it('return no items if no value', async () => {
       const fixture = new SutBuilder()
-        .withFilters({
-          categories: ['Medicines']
-        })
         .build();
 
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.filteredItems()).toEqual([]);
+      expect(fixture.componentInstance.items()).toEqual([]);
     });
 
-    it('return items with no category if uncategorized', async () => {
+    it('render all items', async () => {
       const fixture = new SutBuilder()
-        .withFilters({
-          categories: ['Uncategorized']
-        })
-        .withItems([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-          { name: 'Unknown Item', price: 1, description: 'An unknown item' }
-        ])
-        .build();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.filteredItems()).toEqual([
-        { name: 'Unknown Item', price: 1, description: 'An unknown item' }
-      ]);
-    });
-
-    it('render all items if no filter', async () => {
-      const fixture = new SutBuilder()
-        .withFilters({})
         .withItems([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -146,34 +77,11 @@ describe('Items', () => {
       expect(compiled.querySelector('[data-testid=items-list]')?.children[1].textContent).toContain('Super Potion');
       expect(compiled.querySelector('[data-testid=items-list]')?.children[2].textContent).toContain('Great Ball');
     });
-
-    it('render filtered items from target  category', async () => {
-      const fixture = new SutBuilder()
-        .withFilters({
-          categories: ['Medicines']
-        })
-        .withItems([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-        ])
-        .build();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
-
-      const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=items-list]')?.children.length).toBe(2);
-      expect(compiled.querySelector('[data-testid=items-list]')?.children[0].textContent).toContain('Potion');
-      expect(compiled.querySelector('[data-testid=items-list]')?.children[1].textContent).toContain('Super Potion');
-    });
   });
 
   describe('count should', () => {
-    it('return the number of all items if no filter', async () => {
+    it('return the number of all items', async () => {
       const fixture = new SutBuilder()
-        .withFilters({})
         .withItems([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Potions' },
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
@@ -186,27 +94,8 @@ describe('Items', () => {
       expect(fixture.componentInstance.count()).toBe(2);
     });
 
-    it('return the number of filtered items', async () => {
-      const fixture = new SutBuilder()
-        .withFilters({
-          categories: ['Medicines']
-        })
-        .withItems([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-        ])
-        .build();
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(fixture.componentInstance.count()).toBe(2);
-    });
-
     it('return 0 when there are no items', async () => {
       const fixture = new SutBuilder()
-        .withFilters({})
         .withItems([])
         .build();
 
@@ -218,39 +107,112 @@ describe('Items', () => {
   });
 });
 
-class SutBuilder {
-  private readonly itemsService;
-  private readonly cartService;
-  private readonly filtersService;
+describe('ItemsService', () => {
+  let service: ItemsService;
 
-  constructor() {
-    this.itemsService = jasmine.createSpyObj(ItemsService, ['getItems']);
-    this.cartService = jasmine.createSpyObj(CartService, ['addItem']);
-    this.filtersService = jasmine.createSpyObj(FiltersService, ['filters']);
-  }
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [ItemsService, FiltersService]
+    });
+
+    service = TestBed.inject(ItemsService);
+  });
+
+  describe('items should', () => {
+    it('return no items if warehouse is empty', () => {
+      spyOn(service.warehouse, 'value').and.returnValue([]);
+
+      expect(service.items()).toEqual([]);
+    });
+
+    it('return all items if no filters', () => {
+      spyOn(service.warehouse, 'value').and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+      ]);
+
+      expect(service.items()).toEqual([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+      ]);
+    });
+
+    it('return filtered items from target category', () => {
+      spyOn(service.filtersService, 'filters').and.returnValue({
+        categories: ['Medicines']
+      });
+
+      spyOn(service.warehouse, 'value').and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+      ]);
+
+      expect(service.items()).toEqual([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' }
+      ]);
+    });
+
+    it('return filtered items from multiple categories', () => {
+      spyOn(service.filtersService, 'filters').and.returnValue({
+        categories: ['Medicines', 'Items']
+      });
+
+      spyOn(service.warehouse, 'value').and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
+      ]);
+
+      expect(service.items()).toEqual([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
+      ]);
+    })
+
+    it('return no category items if target category is uncategorized', () => {
+      spyOn(service.filtersService, 'filters').and.returnValue({
+        categories: ['Uncategorized']
+      });
+
+      spyOn(service.warehouse, 'value').and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Unknown Item', price: 1, description: 'An unknown item' }
+      ]);
+
+      expect(service.items()).toEqual([
+        { name: 'Unknown Item', price: 1, description: 'An unknown item' }
+      ]);
+    });
+  });
+});
+
+class SutBuilder {
+  private items: Item[] = [];
   
   withItems(items: Item[]): SutBuilder {
-    this.itemsService.getItems.and.returnValue(Promise.resolve(items));
-    return this;
-  }
-
-  withFilters(filters: Filters): SutBuilder {
-    this.filtersService.filters.and.returnValue(filters);
+    this.items = items;
     return this;
   }
 
   build(): ComponentFixture<ItemsComponent> {
     TestBed.configureTestingModule({
       imports: [ItemsComponent],
-      providers: [{ 
-        provide: ItemsService, useValue: this.itemsService
-      }, {
-        provide: CartService, useValue: this.cartService
-      }, {
-        provide: FiltersService, useValue: this.filtersService
-      }],
+      providers: [ItemsService, FiltersService, CartService],
     });
 
-    return TestBed.createComponent(ItemsComponent);
+    
+    const fixture = TestBed.createComponent(ItemsComponent);
+
+    spyOn(fixture.componentInstance.itemsService, 'items').and.returnValue(this.items);
+
+    return fixture;
   }
 }

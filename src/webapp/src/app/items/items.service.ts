@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { computed, inject, Injectable, resource } from '@angular/core';
 import { Item } from "./item/item.model";
+import { FiltersService } from '../filters/filters.service';
 
 const defaultItems: Item[] = [
   {
@@ -146,7 +147,32 @@ const defaultItems: Item[] = [
 
 @Injectable({ providedIn: 'root' })
 export class ItemsService {
-  getItems(): Promise<Item[]> {
-    return Promise.resolve(defaultItems);
-  }
+
+  filtersService = inject(FiltersService);
+
+  warehouse = resource({
+    loader: () => Promise.resolve(defaultItems)
+  });
+
+  items = computed(() => {
+    if (this.warehouse.hasValue()) {
+
+      const filters = this.filtersService.filters();
+      const items = this.warehouse.value();
+
+      if (!filters.categories) {
+        return items;
+      }
+
+      if (filters.categories.length == 0) {
+        return items;
+      }
+
+      return items.filter(
+        item => filters.categories?.includes(item.category ?? 'Uncategorized')
+      )
+    }
+
+    return [];
+  });
 }

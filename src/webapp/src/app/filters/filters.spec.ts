@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FiltersComponent } from './filters';
 import { Item } from '../items/item/item.model';
 import { ItemsService } from '../items/items.service';
+import { FiltersService } from './filters.service';
 
 describe('Filters', () => {
   describe('toggle should', () => {
@@ -102,7 +103,7 @@ describe('Filters', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.items.value()).toEqual([
+      expect(fixture.componentInstance.items()).toEqual([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
@@ -167,11 +168,7 @@ describe('Filters', () => {
 
 class SutBuilder {
   private selectedCategories: string[] = [];
-  private readonly itemsService;
-
-  constructor() {
-    this.itemsService = jasmine.createSpyObj(ItemsService, ['getItems']);
-  }
+  private items: Item[] = [];
 
   withSelectedCategories(categories: string[]): SutBuilder {
     this.selectedCategories = categories;
@@ -179,19 +176,19 @@ class SutBuilder {
   }
 
   withItems(items: Item[]): SutBuilder {
-    this.itemsService.getItems.and.returnValue(Promise.resolve(items));
+    this.items = items;
     return this;
   }
 
   build(): ComponentFixture<FiltersComponent> {
     TestBed.configureTestingModule({
       imports: [FiltersComponent],
-      providers: [{ 
-        provide: ItemsService, useValue: this.itemsService
-      }],
+      providers: [ItemsService, FiltersService],
     });
     
     const fixture = TestBed.createComponent(FiltersComponent);
+
+    spyOn(fixture.componentInstance.itemsService, 'items').and.returnValue(this.items);
 
     fixture.componentInstance.selectedCategories.set(
       new Set<string>(this.selectedCategories)
