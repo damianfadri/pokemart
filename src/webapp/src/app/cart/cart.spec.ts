@@ -5,22 +5,31 @@ import { CartItem } from './cart-item/cart-item.model';
 import { CartService } from './cart.service';
 
 describe('Cart', () => {
-  describe('items should', () => {
-    it('return empty array when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+  let fixture: ComponentFixture<CartComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CartComponent],
+      providers: [CartService]
+    });
+
+    fixture = TestBed.createComponent(CartComponent);
+  });
+
+  describe('items()', () => {
+    it('should return empty array when cart is empty', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([]);
 
       expect(fixture.componentInstance.items()).toEqual([]);
     });
 
-    it('return items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('should return items in cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
         expect(fixture.componentInstance.items())
         .toEqual([
@@ -29,64 +38,64 @@ describe('Cart', () => {
         ]);
     });
 
-    it('render no items when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+    it('should render cart is empty message when no items in cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+          .and.returnValue([]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-no-items]')?.textContent).toBe("Your cart is empty.");
+      expect(compiled.querySelector('[data-testid=cart-no-items]')?.textContent)
+        .toBe("Your cart is empty.");
     });
 
-    it('render items in the cart', () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('should render items in the cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children.length).toBe(2);
+      expect(compiled.querySelector('[data-testid=cart-items]')?.children.length)
+        .toBe(2);
     });
   });
 
-  describe('totalPrice should', () => {
-    it('return 0 when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+  describe('totalPrice()', () => {
+    it('should return 0 when cart is empty', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+          .and.returnValue([]);
 
-      expect(fixture.componentInstance.totalPrice()).toBe(0);
+      expect(fixture.componentInstance.totalPrice())
+        .toBe(0);
     });
 
-    it('return the total price of items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('should return the total price of items in the cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
-      expect(fixture.componentInstance.totalPrice()).toBe(1200);
+      expect(fixture.componentInstance.totalPrice())
+        .toBe(1200);
     });
 
-    it('render the total price of items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('should render the total price', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-total-price]')?.textContent).toContain('1200');
+      expect(compiled.querySelector('[data-testid=cart-total-price]')?.textContent)
+        .toContain('1200');
     });
   });
 });
@@ -102,74 +111,156 @@ describe('CartService', () => {
     service = TestBed.inject(CartService);
   });
 
-  describe('constructor should', () => {
-    it('start empty', () => {
-      expect(service.getItems()).toEqual([]);
+  describe('constructor()', () => {
+    it('should start empty', () => {
+      expect(service.getItems())
+        .toEqual([]);
     });
   });
 
-  describe('addItem should', () => {
-    it('add a new item when not present', () => {
-      const item: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
-      service.addItem(item);
-      expect(service.getItems()).toEqual([item]);
+  describe('addItem()', () => {
+    it('should add a new item if item is not in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 1 
+        }]);
     });
 
-    it('increment quantity when adding an existing item', () => {
-      const item1: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 2 };
-      const item2: CartItem = { item: { name: 'Potion', price: 300 }, quantity: 1 };
-      service.addItem(item1);
-      service.addItem(item2);
+    it('should increment quantity if item is in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 2
+      });
 
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 3 }]);
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 3
+        }]);
     });
   });
 
-  describe('removeItem should', () => {
-    it('decrement quantity when removing less than existing', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 3 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 2 }]);
+  describe('removeItem()', () => {
+    it('should decrement quantity if item is in cart and cart quantity is greater', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 3
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+      
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 2
+        }]);
     });
 
-    it('remove item completely when removing equal or more quantity', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      expect(service.getItems()).toEqual([]);
+    it('should remove item if item is in cart and cart quantity is equal', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
 
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 2 });
-      service.removeItem({ item: { name: 'Potion', price: 300 }, quantity: 5 });
-      expect(service.getItems()).toEqual([]);
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1
+      });
+
+      expect(service.getItems())
+        .toEqual([]);
     });
 
-    it('ignore remove for non-existing item', () => {
-      service.addItem({ item: { name: 'Potion', price: 300 }, quantity: 1 });
-      service.removeItem({ item: { name: 'Elixir', price: 500 }, quantity: 1 });
-      expect(service.getItems()).toEqual([{ item: { name: 'Potion', price: 300 }, quantity: 1 }]);
+    it('should remove item if item is in cart and cart quantity is less', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 2
+      });
+
+      expect(service.getItems())
+        .toEqual([]);
+    });
+
+    it('should ignore remove if item is not in cart', () => {
+      service.addItem({
+        item: { 
+          name: 'Potion', 
+          price: 300 
+        }, 
+        quantity: 1 
+      });
+
+      service.removeItem({
+        item: { 
+          name: 'Elixir', 
+          price: 500 
+        }, 
+        quantity: 1
+      });
+
+      expect(service.getItems())
+        .toEqual([{
+          item: { 
+            name: 'Potion', 
+            price: 300 
+          }, 
+          quantity: 1 
+        }]);
     });
   });
 });
-
-class SutBuilder {
-  private readonly mockCartService;
-
-  constructor() {
-    this.mockCartService = jasmine.createSpyObj(CartService, ['getItems', 'removeItem'  ]);
-  }
-
-  withItems(items: CartItem[]): SutBuilder {
-    this.mockCartService.getItems.and.returnValue(items);
-    return this;
-  }
-  
-  build(): ComponentFixture<CartComponent> {
-    TestBed.configureTestingModule({
-      imports: [CartComponent],
-      providers: [{ 
-        provide: CartService, useValue: this.mockCartService
-      }]
-    });
-
-    return TestBed.createComponent(CartComponent);
-  }
-}

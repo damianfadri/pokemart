@@ -2,11 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemsComponent } from './items';
 import { ItemsService } from './items.service';
-import { Item } from './item/item.model';
-import { CartService } from '../cart/cart.service';
-import { CartItem } from '../cart/cart-item/cart-item.model';
 import { FiltersService } from '../filters/filters.service';
-import { Filters } from '../filters/filters.model';
 
 describe('Items', () => {
   let fixture: ComponentFixture<ItemsComponent>;
@@ -14,14 +10,14 @@ describe('Items', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ItemsComponent],
-      providers: [ItemsService, FiltersService, CartService],
+      providers: [ItemsService, FiltersService],
     });
 
     fixture = TestBed.createComponent(ItemsComponent);
   });
 
-  describe('items should', () => {
-    it('return all items', () => {
+  describe('items()', () => {
+    it('should return all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -29,21 +25,23 @@ describe('Items', () => {
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ]);
 
-      expect(fixture.componentInstance.items()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-      ]);
+      expect(fixture.componentInstance.items())
+        .toEqual([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ]);
     });
 
-    it('return no items if no value', () => {
+    it('should return 0 items if there are no items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([]);
 
-      expect(fixture.componentInstance.items()).toEqual([]);
+      expect(fixture.componentInstance.items())
+        .toEqual([]);
     });
 
-    it('render all items', () => {
+    it('should render all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -54,15 +52,19 @@ describe('Items', () => {
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=items-list]')?.children.length).toBe(3);
-      expect(compiled.querySelector('[data-testid=items-list]')?.children[0].textContent).toContain('Potion');
-      expect(compiled.querySelector('[data-testid=items-list]')?.children[1].textContent).toContain('Super Potion');
-      expect(compiled.querySelector('[data-testid=items-list]')?.children[2].textContent).toContain('Great Ball');
+      expect(compiled.querySelector('[data-testid=items-list]')?.children.length)
+        .toBe(3);
+      expect(compiled.querySelector('[data-testid=items-list]')?.children[0].textContent)
+        .toContain('Potion');
+      expect(compiled.querySelector('[data-testid=items-list]')?.children[1].textContent)
+        .toContain('Super Potion');
+      expect(compiled.querySelector('[data-testid=items-list]')?.children[2].textContent)
+        .toContain('Great Ball');
     });
   });
 
-  describe('count should', () => {
-    it('return the number of all items', () => {
+  describe('count()', () => {
+    it('should return the count of all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
@@ -70,14 +72,16 @@ describe('Items', () => {
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ]);
 
-      expect(fixture.componentInstance.count()).toBe(3);
+      expect(fixture.componentInstance.count())
+        .toBe(3);
     });
 
-    it('return 0 when there are no items', () => {
+    it('should return 0 if there are no items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([]);
 
-      expect(fixture.componentInstance.count()).toBe(0);
+      expect(fixture.componentInstance.count())
+        .toBe(0);
     });
   });
 });
@@ -93,20 +97,21 @@ describe('ItemsService', () => {
     service = TestBed.inject(ItemsService);
   });
 
-  describe('categories should', () => {
-    it('return unique categories', () => {
+  describe('categories()', () => {
+    it('should return unique categories', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
 
-      expect(service.categories()).toEqual(
-        new Set<string>([ 'Medicines', 'Poké Balls' ])
-      );
+      expect(service.categories())
+        .toEqual(
+          new Set<string>([ 'Medicines', 'Poké Balls' ])
+        );
     });
 
-    it('add uncategorized if an item has no category', () => {
+    it('should add uncategorized if an item has no category', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
@@ -114,42 +119,45 @@ describe('ItemsService', () => {
         { name: 'Unknown Item', price: 1, description: 'An unknown item' }
       ]);
 
-      expect(service.categories()).toEqual(
-        new Set<string>([ 'Medicines', 'Poké Balls', 'Uncategorized' ])
-      );
+      expect(service.categories())
+        .toEqual(
+          new Set<string>([ 'Medicines', 'Poké Balls', 'Uncategorized' ])
+        );
     });
 
-    it('add uncategorized if no items', () => {
+    it('should add uncategorized if no items', () => {
       spyOn(service.warehouse, 'value').and.returnValue([]);
 
-      expect(service.categories()).toEqual(
-        new Set<string>([ 'Uncategorized' ])
-      );
+      expect(service.categories())
+        .toEqual(
+          new Set<string>([ 'Uncategorized' ])
+        );
     });
   });
 
-  describe('items should', () => {
-    it('return no items if warehouse is empty', () => {
+  describe('items()', () => {
+    it('should return 0 items if warehouse is empty', () => {
       spyOn(service.warehouse, 'value').and.returnValue([]);
 
       expect(service.items()).toEqual([]);
     });
 
-    it('return all items if no filters', () => {
+    it('should return all items if no filters', () => {
       spyOn(service.warehouse, 'value').and.returnValue([
         { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
         { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
 
-      expect(service.items()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-      ]);
+      expect(service.items())
+        .toEqual([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ]);
     });
 
-    it('return filtered items from target category', () => {
+    it('should return filtered items from target category', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Medicines']
       });
@@ -160,13 +168,14 @@ describe('ItemsService', () => {
         { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
       ]);
 
-      expect(service.items()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' }
-      ]);
+      expect(service.items())
+        .toEqual([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' }
+        ]);
     });
 
-    it('return filtered items from multiple categories', () => {
+    it('should return filtered items from multiple categories', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Medicines', 'Items']
       });
@@ -178,14 +187,15 @@ describe('ItemsService', () => {
         { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
       ]);
 
-      expect(service.items()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
-      ]);
+      expect(service.items())
+        .toEqual([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+          { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
+        ]);
     })
 
-    it('return no category items if target category is uncategorized', () => {
+    it('should return no category items if target category is uncategorized', () => {
       spyOn(service.filtersService, 'filters').and.returnValue({
         categories: ['Uncategorized']
       });
@@ -197,9 +207,10 @@ describe('ItemsService', () => {
         { name: 'Unknown Item', price: 1, description: 'An unknown item' }
       ]);
 
-      expect(service.items()).toEqual([
-        { name: 'Unknown Item', price: 1, description: 'An unknown item' }
-      ]);
+      expect(service.items())
+        .toEqual([
+          { name: 'Unknown Item', price: 1, description: 'An unknown item' }
+        ]);
     });
   });
 });
