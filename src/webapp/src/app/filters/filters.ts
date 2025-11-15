@@ -14,8 +14,11 @@ export class FiltersComponent {
 
   products = computed(() => this.productsService.products());
   categories = computed(() => this.productsService.categories());
-  
+
   selectedCategories = signal<Set<string>>(new Set<string>());
+
+  minPrice = signal<number | undefined>(undefined);
+  maxPrice = signal<number | undefined>(undefined);
 
   toggled(category: string): boolean {
     return this.selectedCategories().has(category);
@@ -33,11 +36,37 @@ export class FiltersComponent {
     });
   }
 
+  setMinPrice(val: number) {
+    if (val <= 0) {
+      this.minPrice.set(undefined);
+      return;
+    }
+
+    this.minPrice.set(val);
+    if (val > (this.maxPrice() ?? Number.MAX_VALUE)) {
+      this.maxPrice.set(val);
+    }
+  }
+
+  setMaxPrice(val: number) {
+    if (val <= 0) {
+      this.maxPrice.set(undefined);
+      return;
+    }
+
+    this.maxPrice.set(val);
+    if (val < (this.minPrice() ?? 0)) {
+      this.minPrice.set(val);
+    }
+  }
+
   onApply() {
-    this.filtersService.filters.update(
-      curr => ({
-        ...curr,
-        categories: [...this.selectedCategories()]
-    }));
+    this.filtersService.filters.set({
+      categories: [...this.selectedCategories()],
+      price: {
+        min: this.minPrice(), 
+        max: this.maxPrice()
+      }
+    });
   }
 }

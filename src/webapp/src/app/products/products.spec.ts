@@ -230,4 +230,73 @@ describe('ProductsService', () => {
         ]);
     });
   });
+
+  it('should return filtered products from min price', () => {
+    spyOn(service.filtersService, methodNameFilters)
+      .and.returnValue({
+        price: {
+          min: 500
+        }
+      });
+
+    spyOn(service.warehouse, methodNameValue)
+      .and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+      ]);
+
+    expect(service.products())
+      .toEqual([
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+      ]);
+  });
+
+  it('should return filtered products from max price', () => {
+    spyOn(service.filtersService, methodNameFilters)
+      .and.returnValue({
+        price: {
+          max: 500
+        }
+      });
+
+    spyOn(service.warehouse, methodNameValue)
+      .and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+      ]);
+
+    expect(service.products())
+      .toEqual([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+      ]);
+  });
+
+  it('should return filtered products from min and max prices', () => {
+    spyOn(service.filtersService, methodNameFilters)
+      .and.returnValue({
+        price: {
+          min: 300,
+          max: 500
+        }
+      });
+
+    spyOn(service.warehouse, methodNameValue)
+      .and.returnValue([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
+        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+      ]);
+
+    expect(service.products())
+      .toEqual([
+        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+      ]);
+  });
 });

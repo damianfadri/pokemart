@@ -22,14 +22,18 @@
       placeholder="Min" 
       class="w-1/2 px-2 py-1 border rounded border-pumpkin-500
              focus:outline-none focus:ring-2 focus:ring-pumpkin-500 focus:border-pumpkin-500
-             active:border-pumpkin-500" />
+             active:border-pumpkin-500"
+      value="{{ minPrice() }}"
+      (change)="setMinPrice(+$event.target.value)" />
 
     <input 
       type="number" 
       placeholder="Max"
       class="w-1/2 px-2 py-1 border rounded border-pumpkin-500
              focus:outline-none focus:ring-2 focus:ring-pumpkin-500 focus:border-pumpkin-500
-             active:border-pumpkin-500" />
+             active:border-pumpkin-500"
+      value="{{ maxPrice() }}"
+      (change)="setMaxPrice(+$event.target.value)" />
   </div>
   <button 
     class="text-lg mt-3 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded cursor-pointer

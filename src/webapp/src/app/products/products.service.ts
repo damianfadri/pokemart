@@ -158,19 +158,26 @@ export class ProductsService {
     if (this.warehouse.hasValue()) {
 
       const filters = this.filtersService.filters();
-      const products = this.warehouse.value();
+      let products = this.warehouse.value();
 
-      if (!filters.categories) {
-        return products;
+      if (filters.categories) {
+        const categories = filters.categories ?? ['Uncategorized'];
+
+        products = products.filter(
+          product => categories.includes(product.category ?? 'Uncategorized')
+        );
       }
 
-      if (filters.categories.length == 0) {
-        return products;
+      if (filters.price) {
+        const minPrice = filters.price.min ?? 0;
+        const maxPrice = filters.price.max ?? Number.MAX_VALUE;
+
+        products = products.filter(
+          product => minPrice <= product.price && product.price <= maxPrice
+        );
       }
 
-      return products.filter(
-        product => filters.categories?.includes(product.category ?? 'Uncategorized')
-      )
+      return products;
     }
 
     return [];
