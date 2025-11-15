@@ -1,51 +1,41 @@
 <h2 class="text-2xl font-semibold mb-3">Categories</h2>
 <ul class="space-y-2 text-lg">
+
+  @for (category of categories(); track category) {
   <li>
-    <label for="cat-pokeballs" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
-      <input id="cat-pokeballs" name="categories" type="checkbox" value="Poké Balls"
+    <label class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
+      <input type="checkbox" value="{{ category }}"
         class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded"
-        [checked]="toggled('Poké Balls')"
+        [checked]="toggled(category)"
         (change)="toggle($event.target.value, $event.target.checked)" />
-      <span class="select-none">Poké Balls</span>
+      <span class="select-none">{{ category }}</span>
     </label>
   </li>
-  <li>
-    <label for="cat-medicines" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
-      <input id="cat-medicines" name="categories" type="checkbox" value="Medicines" 
-        class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded"
-        [checked]="toggled('Medicines')"
-        (change)="toggle($event.target.value, $event.target.checked)" />
-      <span class="select-none">Medicine</span>
-    </label>
-  </li>
-  <li>
-    <label for="cat-items" class="flex items-center w-full px-2 py-1 rounded hover:bg-cream-500 cursor-pointer">
-      <input id="cat-items" name="categories" type="checkbox" value="Items"
-        class="mr-3 h-4 w-4 accent-pumpkin-500 text-pumpkin-500 border rounded"
-        [checked]="toggled('Items')"
-        (change)="toggle($event.target.value, $event.target.checked)" />
-      <span class="select-none">Items</span>
-    </label>
-  </li>
+  }
 </ul>
 
 <div class="mt-6">
   <h3 class="text-lg font-medium mb-2">Price</h3>
   <div class="flex items-center space-x-2 text-sm">
-    <input type="number" placeholder="Min" 
+    <input 
+      type="number" 
+      placeholder="Min" 
       class="w-1/2 px-2 py-1 border rounded border-pumpkin-500
              focus:outline-none focus:ring-2 focus:ring-pumpkin-500 focus:border-pumpkin-500
              active:border-pumpkin-500" />
 
-    <input type="number" placeholder="Max"
+    <input 
+      type="number" 
+      placeholder="Max"
       class="w-1/2 px-2 py-1 border rounded border-pumpkin-500
              focus:outline-none focus:ring-2 focus:ring-pumpkin-500 focus:border-pumpkin-500
              active:border-pumpkin-500" />
   </div>
-  <button class="text-lg mt-3 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded cursor-pointer
-    transition transform duration-150 ease-in-out
-    hover:scale-105 active:scale-95 active:shadow-inner
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-500" 
-    (click)="onApply()">Apply
+  <button 
+    class="text-lg mt-3 w-full bg-pumpkin-500 font-bold text-gray-800 py-2 rounded cursor-pointer
+           transition transform duration-150 ease-in-out hover:scale-105 active:scale-95 active:shadow-inner
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-500" 
+    (click)="onApply()">
+      Apply
   </button>
 </div>

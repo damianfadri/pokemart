@@ -1,5 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FiltersService } from './filters.service';
+import { ItemsService } from '../items/items.service';
 
 @Component({
   selector: 'app-filters',
@@ -9,15 +10,28 @@ import { FiltersService } from './filters.service';
 })
 export class FiltersComponent {
   filtersService = inject(FiltersService);
+  itemsService = inject(ItemsService);
 
-  categories = signal<Set<string>>(new Set<string>());
+  items = resource({
+    loader: () => this.itemsService.getItems()
+  });
+
+  categories = computed(() => {
+    if (this.items.hasValue()) {
+      return new Set<string>(this.items.value().map(item => item.category ?? 'Uncategorized'));
+    }
+
+    return new Set<string>(['Uncategorized']);
+  });
+  
+  selectedCategories = signal<Set<string>>(new Set<string>());
 
   toggled(category: string): boolean {
-    return this.categories().has(category);
+    return this.selectedCategories().has(category);
   }
 
   toggle(category: string, val: boolean) {
-    this.categories.update(categories => {
+    this.selectedCategories.update(categories => {
       if (val) {
         categories.add(category);
       } else {
@@ -32,7 +46,7 @@ export class FiltersComponent {
     this.filtersService.filters.update(
       curr => ({
         ...curr,
-        categories: [...this.categories()]
+        categories: [...this.selectedCategories()]
     }));
   }
 }

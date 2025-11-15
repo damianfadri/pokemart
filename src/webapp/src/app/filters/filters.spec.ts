@@ -7,48 +7,48 @@ describe('Filters', () => {
     it('add category when val is true and not in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories([])
+          .withSelectedCategories([])
           .build();
 
       fixture.componentInstance.toggle('Category1', true);
 
-      expect([...fixture.componentInstance.categories()])
+      expect([...fixture.componentInstance.selectedCategories()])
       .toEqual(['Category1']);
     });
 
     it('do nothing when val is true and in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category1'])
+          .withSelectedCategories(['Category1'])
           .build();
 
       fixture.componentInstance.toggle('Category1', true);
 
-      expect([...fixture.componentInstance.categories()])
+      expect([...fixture.componentInstance.selectedCategories()])
       .toEqual(['Category1']);
     });
 
     it('remove category when val is false and in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category1'])
+          .withSelectedCategories(['Category1'])
           .build();
 
       fixture.componentInstance.toggle('Category1', false);
 
-      expect([...fixture.componentInstance.categories()])
+      expect([...fixture.componentInstance.selectedCategories()])
       .toEqual([]);
     });
 
     it('do nothing when val is false and not in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category2'])
+          .withSelectedCategories(['Category2'])
           .build();
 
       fixture.componentInstance.toggle('Category1', false);
 
-      expect([...fixture.componentInstance.categories()])
+      expect([...fixture.componentInstance.selectedCategories()])
       .toEqual(['Category2']);
     });
   });
@@ -57,7 +57,7 @@ describe('Filters', () => {
     it('return true if in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category1'])
+          .withSelectedCategories(['Category1'])
           .build();
 
       expect(fixture.componentInstance.toggled('Category1')).toBeTrue();
@@ -66,7 +66,7 @@ describe('Filters', () => {
     it('return false if not in categories', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category2'])
+          .withSelectedCategories(['Category2'])
           .build();
 
       expect(fixture.componentInstance.toggled('Category1')).not.toBeTrue();
@@ -77,7 +77,7 @@ describe('Filters', () => {
     it('call filtersService.filters with the correct filter', () => {
       var fixture = 
         new SutBuilder()
-          .withCategories(['Category1'])
+          .withSelectedCategories(['Category1'])
           .build();
 
       spyOn(fixture.componentInstance.filtersService.filters, 'update');
@@ -90,10 +90,10 @@ describe('Filters', () => {
 });
 
 class SutBuilder {
-  private categories: string[] = [];
+  private selectedCategories: string[] = [];
 
-  withCategories(categories: string[]): SutBuilder {
-    this.categories = categories;
+  withSelectedCategories(categories: string[]): SutBuilder {
+    this.selectedCategories = categories;
     return this;
   }
 
@@ -104,8 +104,8 @@ class SutBuilder {
     
     const fixture = TestBed.createComponent(FiltersComponent);
 
-    fixture.componentInstance.categories.set(
-      new Set<string>(this.categories)
+    fixture.componentInstance.selectedCategories.set(
+      new Set<string>(this.selectedCategories)
     );
 
     return fixture;
