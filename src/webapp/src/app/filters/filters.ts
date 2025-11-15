@@ -13,13 +13,7 @@ export class FiltersComponent {
   itemsService = inject(ItemsService);
 
   items = computed(() => this.itemsService.items());
-  categories = computed(() => {
-    if (this.items().length > 0) {
-      return new Set<string>(this.items().map(item => item.category ?? 'Uncategorized'));
-    }
-
-    return new Set<string>(['Uncategorized']);
-  });
+  categories = computed(() => this.itemsService.categories());
   
   selectedCategories = signal<Set<string>>(new Set<string>());
 

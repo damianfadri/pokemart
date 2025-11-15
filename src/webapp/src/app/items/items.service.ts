@@ -175,4 +175,18 @@ export class ItemsService {
 
     return [];
   });
+
+  categories = computed(() => {
+    if (this.warehouse.hasValue()) {
+      const items = this.warehouse.value();
+
+      if (items.length === 0) {
+        return new Set<string>(['Uncategorized']);
+      }
+      
+      return new Set<string>(items.map(item => item.category ?? 'Uncategorized'));
+    }
+
+    return new Set<string>(['Uncategorized']);
+  });
 }
