@@ -16,19 +16,19 @@ describe('Filters', () => {
     fixture = TestBed.createComponent(FiltersComponent);
   });
 
-  describe('toggle should', () => {
-    it('add category when val is true and not in categories', () => {
+  describe('toggle()', () => {
+    it('should add category when checked and not in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>([])
       );
 
       fixture.componentInstance.toggle('Category1', true);
 
-      expect([...fixture.componentInstance.selectedCategories()])
-      .toEqual(['Category1']);
+      expect(fixture.componentInstance.selectedCategories())
+        .toEqual(new Set<string>(['Category1']));
     });
 
-    it('do nothing when val is true and in categories', () => {
+    it('should ignore toggle when checked and in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -39,7 +39,7 @@ describe('Filters', () => {
         .toEqual(new Set<string>(['Category1']));
     });
 
-    it('remove category when val is false and in categories', () => {
+    it('should remove category when unchecked and in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -50,7 +50,7 @@ describe('Filters', () => {
         .toEqual(new Set<string>());
     });
 
-    it('do nothing when val is false and not in categories', () => {
+    it('should ignore toggle when unchecked and not in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category2'])
       );
@@ -62,8 +62,8 @@ describe('Filters', () => {
     });
   });
 
-  describe('toggled should', () => {
-    it('return true if in categories', () => {
+  describe('toggled()', () => {
+    it('should return true if in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -72,7 +72,7 @@ describe('Filters', () => {
         .toBeTrue();
     });
 
-    it('return false if not in categories', () => {
+    it('should return false if not in categories', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category2'])
       );
@@ -82,8 +82,8 @@ describe('Filters', () => {
     });
   });
 
-  describe('onApply should', () => {
-    it('call filtersService.filters with the correct filter', () => {
+  describe('onApply()', () => {
+    it('should call filtersService.filters with the correct filter', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -97,23 +97,24 @@ describe('Filters', () => {
     });
   });
 
-  describe('items should', () => {
-    it('get all items', () => {
+  describe('items()', () => {
+    it('should get all items', () => {
       spyOn(fixture.componentInstance.itemsService, 'items')
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ]);
 
-      expect(fixture.componentInstance.items()).toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
-      ]);
+      expect(fixture.componentInstance.items())
+        .toEqual([
+          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+        ]);
     });
   });
 
-  describe('filters should', () => {
-    it('get all categories', () => {
+  describe('filters()', () => {
+    it('should get all categories', () => {
       spyOn(fixture.componentInstance.itemsService, 'categories')
         .and.returnValue(new Set<string>([ 'Medicines', 'Poké Balls' ]));
 
