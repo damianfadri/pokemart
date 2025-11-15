@@ -3,35 +3,32 @@ import { CartItem } from './cart-item/cart-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private cartItems = signal<CartItem[]>([]);
+  private items = signal<CartItem[]>([]);
 
-  constructor() {
+  list(): CartItem[] {
+    return this.items();
   }
 
-  getItems() {
-    return this.cartItems();
-  }
-
-  addItem(item: CartItem) {
-    const existingItem = this.cartItems().find(i => i.item.name === item.item.name);
+  add(item: CartItem) {
+    const existingItem = this.items().find(i => i.product.name === item.product.name);
     if (existingItem) {
-      this.cartItems.update(items => 
-        items.map(i => i.item.name === item.item.name ? { ...i, quantity: i.quantity + item.quantity } : i));
+      this.items.update(items => 
+        items.map(i => i.product.name === item.product.name ? { ...i, quantity: i.quantity + item.quantity } : i));
     }
     else {
-      this.cartItems.update(items => [...items, item]);
+      this.items.update(items => [...items, item]);
     }
   }
 
-  removeItem(item: CartItem) {
-    const existingItem = this.cartItems().find(i => i.item.name === item.item.name);
+  remove(item: CartItem) {
+    const existingItem = this.items().find(i => i.product.name === item.product.name);
     if (existingItem) {
       if (existingItem.quantity > item.quantity) {
-        this.cartItems.update(items => 
-          items.map(i => i.item.name === item.item.name ? { ...i, quantity: i.quantity - item.quantity } : i));
+        this.items.update(items => 
+          items.map(i => i.product.name === item.product.name ? { ...i, quantity: i.quantity - item.quantity } : i));
       } else {
-        this.cartItems.update(items => 
-          items.filter(i => i.item.name !== item.item.name));
+        this.items.update(items => 
+          items.filter(i => i.product.name !== item.product.name));
       }
     }
   }

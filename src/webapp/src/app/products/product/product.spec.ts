@@ -1,29 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemComponent } from './item';
+import { ProductComponent } from './product';
 import { CartService } from '../../cart/cart.service';
 
-describe('Item', () => {
-  let fixture: ComponentFixture<ItemComponent>;
+const methodNameProduct: keyof ProductComponent = 'product';
+const methodNameAdd: keyof CartService = 'add';
+
+describe('Product', () => {
+  let fixture: ComponentFixture<ProductComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ItemComponent],
+      imports: [ProductComponent],
       providers: [CartService]
     });
     
-    fixture = TestBed.createComponent(ItemComponent);
+    fixture = TestBed.createComponent(ProductComponent);
   });
 
-  describe('item()', () => {
-    it('should return item', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300,
-        category: 'Medicines'
-      });
+  describe('product()', () => {
+    it('should return product', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
 
-      expect(fixture.componentInstance.item())
+      expect(fixture.componentInstance.product())
         .toEqual({
           name: 'Potion',
           price: 300,
@@ -31,8 +35,9 @@ describe('Item', () => {
         });
     });
 
-    it('should render item', () => {
-      fixture.componentRef.setInput('item', {
+    it('should render product', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
         name: 'Potion',
         price: 300,
         category: 'Medicines'
@@ -51,20 +56,21 @@ describe('Item', () => {
   });
 
   describe('addToCart()', () => {
-    it('should call cartService.addItem() with the correct item', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300,
-        category: 'Medicines'
-      });
+    it('should call cartService.add() with the correct product', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
 
-      spyOn(fixture.componentInstance.cartService, 'addItem');
+      spyOn(fixture.componentInstance.cartService, methodNameAdd);
 
       fixture.componentInstance.addToCart();
 
-      expect(fixture.componentInstance.cartService.addItem)
+      expect(fixture.componentInstance.cartService.add)
         .toHaveBeenCalledWith({ 
-          item: {
+          product: {
             name: 'Potion',
             price: 300,
             category: 'Medicines'

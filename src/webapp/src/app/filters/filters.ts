@@ -1,6 +1,6 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FiltersService } from './filters.service';
-import { ItemsService } from '../items/items.service';
+import { ProductsService } from '../products/products.service';
 
 @Component({
   selector: 'app-filters',
@@ -10,10 +10,10 @@ import { ItemsService } from '../items/items.service';
 })
 export class FiltersComponent {
   filtersService = inject(FiltersService);
-  itemsService = inject(ItemsService);
+  productsService = inject(ProductsService);
 
-  items = computed(() => this.itemsService.items());
-  categories = computed(() => this.itemsService.categories());
+  products = computed(() => this.productsService.products());
+  categories = computed(() => this.productsService.categories());
   
   selectedCategories = signal<Set<string>>(new Set<string>());
 

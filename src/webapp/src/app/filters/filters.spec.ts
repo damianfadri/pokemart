@@ -1,8 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersComponent } from './filters';
-import { ItemsService } from '../items/items.service';
+import { ProductsService } from '../products/products.service';
 import { FiltersService } from './filters.service';
+import { WritableSignal } from '@angular/core';
+import { Filters } from './filters.model';
+
+const methodNameUpdate: keyof WritableSignal<Filters | undefined> = 'update';
+const methodNameProducts: keyof ProductsService = 'products';
+const methodNameCategories: keyof ProductsService = 'categories';
 
 describe('Filters', () => {
   let fixture: ComponentFixture<FiltersComponent>;
@@ -10,7 +16,7 @@ describe('Filters', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FiltersComponent],
-      providers: [ItemsService, FiltersService],
+      providers: [ProductsService, FiltersService],
     });
     
     fixture = TestBed.createComponent(FiltersComponent);
@@ -88,7 +94,7 @@ describe('Filters', () => {
         new Set<string>(['Category1'])
       );
 
-      spyOn(fixture.componentInstance.filtersService.filters, 'update');
+      spyOn(fixture.componentInstance.filtersService.filters, methodNameUpdate);
 
       fixture.componentInstance.onApply();
 
@@ -97,15 +103,15 @@ describe('Filters', () => {
     });
   });
 
-  describe('items()', () => {
-    it('should get all items', () => {
-      spyOn(fixture.componentInstance.itemsService, 'items')
+  describe('products()', () => {
+    it('should get all products', () => {
+      spyOn(fixture.componentInstance.productsService, methodNameProducts)
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
         ]);
 
-      expect(fixture.componentInstance.items())
+      expect(fixture.componentInstance.products())
         .toEqual([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
@@ -115,7 +121,7 @@ describe('Filters', () => {
 
   describe('filters()', () => {
     it('should get all categories', () => {
-      spyOn(fixture.componentInstance.itemsService, 'categories')
+      spyOn(fixture.componentInstance.productsService, methodNameCategories)
         .and.returnValue(new Set<string>([ 'Medicines', 'Poké Balls' ]));
 
       expect(fixture.componentInstance.categories())

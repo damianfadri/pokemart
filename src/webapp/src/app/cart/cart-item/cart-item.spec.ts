@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartItemComponent } from './cart-item';
+import { CartService } from '../cart.service';
+
+const methodNameProduct: keyof CartItemComponent = 'product';
+const methodNameQuantity: keyof CartItemComponent = 'quantity';
+const methodNameRemove: keyof CartService = 'remove';
 
 describe('CartItem', () => {
   let fixture: ComponentFixture<CartItemComponent>;
@@ -15,38 +20,41 @@ describe('CartItem', () => {
 
   describe('total()', () => {
     it('should return price multiplied by quantity', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 5);
+      fixture.componentRef.setInput(methodNameQuantity, 5);
 
       expect(fixture.componentInstance.total()).toBe(1500);
     });
 
     it('should return 0 when quantity is 0', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 0);
+      fixture.componentRef.setInput(methodNameQuantity, 0);
 
       expect(fixture.componentInstance.total()).toBe(0);
     });
   });
 
-  describe('item()', () => {
+  describe('product()', () => {
     it('should return the item', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 1);
+      fixture.componentRef.setInput(methodNameQuantity, 1);
 
-      expect(fixture.componentInstance.item())
+      expect(fixture.componentInstance.product())
         .toEqual({
           name: 'Potion',
           price: 300
@@ -54,12 +62,13 @@ describe('CartItem', () => {
     });
 
     it('should render the item', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 1);
+      fixture.componentRef.setInput(methodNameQuantity, 1);
 
       fixture.detectChanges();
 
@@ -73,23 +82,25 @@ describe('CartItem', () => {
 
   describe('quantity()', () => {
     it('should return the quantity', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 5);
+      fixture.componentRef.setInput(methodNameQuantity, 5);
 
       expect(fixture.componentInstance.quantity()).toBe(5);
     });
 
     it('should render the quantity', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 5);
+      fixture.componentRef.setInput(methodNameQuantity, 5);
 
       fixture.detectChanges();
 
@@ -100,21 +111,22 @@ describe('CartItem', () => {
   });
 
   describe('removeFromCart()', () => {
-    it('should call cartService.removeItem() with the correct item', () => {
-      fixture.componentRef.setInput('item', {
-        name: 'Potion',
-        price: 300
-      });
+    it('should call cartService.remove() with the correct item', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct as any, {
+          name: 'Potion',
+          price: 300
+        });
 
-      fixture.componentRef.setInput('quantity', 5);
+      fixture.componentRef.setInput(methodNameQuantity, 5);
 
-      spyOn(fixture.componentInstance.cartService, 'removeItem');
+      spyOn(fixture.componentInstance.cartService, methodNameRemove);
 
       fixture.componentInstance.removeFromCart();
 
-      expect(fixture.componentInstance.cartService.removeItem)
+      expect(fixture.componentInstance.cartService.remove)
         .toHaveBeenCalledWith({
-          item: {
+          product: {
             name: 'Potion',
             price: 300
           },

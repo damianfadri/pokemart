@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ItemsComponent } from '../items/items';
+import { ProductsComponent } from '../products/products';
 import { CartComponent } from '../cart/cart';
 import { FiltersComponent } from '../filters/filters';
 
 @Component({
   selector: 'app-home',
-  imports: [ItemsComponent, CartComponent, FiltersComponent],
+  imports: [ProductsComponent, CartComponent, FiltersComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
