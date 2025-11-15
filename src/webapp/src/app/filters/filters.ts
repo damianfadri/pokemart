@@ -11,14 +11,8 @@ import { FiltersService } from './filters.service';
 export class FiltersComponent {
   route = inject(ActivatedRoute);
   filtersService = inject(FiltersService);
-
-  pokeballs = signal<boolean>(false);
-  medicines = signal<boolean>(false);
-  items = signal<boolean>(false);
-
+  
   categories = signal<Set<string>>(new Set<string>());
-
-  printed = computed(() => JSON.stringify(this.categories()));
 
   toggled(category: string): boolean {
     return this.categories().has(category);
