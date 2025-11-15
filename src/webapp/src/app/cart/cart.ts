@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CartItem } from './cart-item/cart-item.model';
 import { CartService } from './cart.service';
 import { CartItemComponent } from './cart-item/cart-item';
 

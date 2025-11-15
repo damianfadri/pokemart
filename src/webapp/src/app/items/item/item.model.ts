@@ -9,5 +9,5 @@ export interface Item {
 
 export interface ItemResources {
     uri: string;
-    spriteUri?: string;
+    spriteUri: string;
 }
