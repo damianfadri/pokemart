@@ -5,22 +5,31 @@ import { CartItem } from './cart-item/cart-item.model';
 import { CartService } from './cart.service';
 
 describe('Cart', () => {
+  let fixture: ComponentFixture<CartComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [CartComponent],
+      providers: [CartService]
+    });
+
+    fixture = TestBed.createComponent(CartComponent);
+  });
+
   describe('items should', () => {
     it('return empty array when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([]);
 
       expect(fixture.componentInstance.items()).toEqual([]);
     });
 
-    it('return items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('return items in the cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
         expect(fixture.componentInstance.items())
         .toEqual([
@@ -30,63 +39,63 @@ describe('Cart', () => {
     });
 
     it('render no items when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+          .and.returnValue([]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-no-items]')?.textContent).toBe("Your cart is empty.");
+      expect(compiled.querySelector('[data-testid=cart-no-items]')?.textContent)
+        .toBe("Your cart is empty.");
     });
 
     it('render items in the cart', () => {
-      const fixture = new SutBuilder()
-        .withItems([
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-items]')?.children.length).toBe(2);
+      expect(compiled.querySelector('[data-testid=cart-items]')?.children.length)
+        .toBe(2);
     });
   });
 
   describe('totalPrice should', () => {
     it('return 0 when cart is empty', () => {
-      const fixture = new SutBuilder()
-        .withItems([])
-        .build();
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+          .and.returnValue([]);
 
-      expect(fixture.componentInstance.totalPrice()).toBe(0);
+      expect(fixture.componentInstance.totalPrice())
+        .toBe(0);
     });
 
-    it('return the total price of items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('return the total price of items in the cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
-      expect(fixture.componentInstance.totalPrice()).toBe(1200);
+      expect(fixture.componentInstance.totalPrice())
+        .toBe(1200);
     });
 
-    it('render the total price of items in the cart', async () => {
-      const fixture = new SutBuilder()
-        .withItems([
+    it('render the total price of items in the cart', () => {
+      spyOn(fixture.componentInstance.cartService, 'getItems')
+        .and.returnValue([
           { item: { name: 'Potion', price: 300 }, quantity: 2, },
           { item: { name: 'Great Ball',  price: 600 }, quantity: 1 }
-        ])
-        .build();
+        ]);
 
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement as HTMLElement;
-      expect(compiled.querySelector('[data-testid=cart-total-price]')?.textContent).toContain('1200');
+      expect(compiled.querySelector('[data-testid=cart-total-price]')?.textContent)
+        .toContain('1200');
     });
   });
 });
@@ -149,27 +158,3 @@ describe('CartService', () => {
     });
   });
 });
-
-class SutBuilder {
-  private readonly mockCartService;
-
-  constructor() {
-    this.mockCartService = jasmine.createSpyObj(CartService, ['getItems', 'removeItem'  ]);
-  }
-
-  withItems(items: CartItem[]): SutBuilder {
-    this.mockCartService.getItems.and.returnValue(items);
-    return this;
-  }
-  
-  build(): ComponentFixture<CartComponent> {
-    TestBed.configureTestingModule({
-      imports: [CartComponent],
-      providers: [{ 
-        provide: CartService, useValue: this.mockCartService
-      }]
-    });
-
-    return TestBed.createComponent(CartComponent);
-  }
-}
