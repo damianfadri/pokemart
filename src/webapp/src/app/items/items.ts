@@ -39,11 +39,5 @@ export class ItemsComponent {
     return [];
   });
 
-  count = computed(() => {
-    if (this.items.hasValue()) {
-      return this.items.value().length;
-    }
-
-    return 0;
-  });
+  count = computed(() => this.filteredItems().length);
 }
