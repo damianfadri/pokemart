@@ -14,13 +14,33 @@ export class ProductComponent {
   route = inject(ActivatedRoute);
 
   routeParams = toSignal(this.route.params);
-  name = computed<string>(() => this.routeParams()!['name']);
+  name = computed<string>(() => {
+    const params = this.routeParams();
+    if (params !== undefined) {
+      return params['name'];
+    }
 
-  product = resource({
+    return '';
+  });
+
+  fetchedProduct = resource({
     params: () => ({ name: this.name() }),
     loader: ({ params }) =>  this.productsService.getProduct(params.name)
   });
 
-  productStr = computed(() => JSON.stringify(this.product.value()));
-  productErr = computed(() => this.product.error());
+  product = computed(() => {
+    if (this.fetchedProduct.hasValue()) {
+      return this.fetchedProduct.value();
+    }
+
+    return {
+      name: '',
+      description: '',
+      price: 0,
+      stock: 0,
+      category: '',
+      rarity: '',
+      resources: { uri: '', spriteUri: '' }
+    }
+  });
 }
