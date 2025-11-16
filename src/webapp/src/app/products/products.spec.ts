@@ -145,7 +145,7 @@ describe('ProductsContext', () => {
     });
   });
 
-  describe('getProducts()', () => {
+  describe('products()', () => {
     it('should return 0 products if fetched products are empty', () => {
       spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([]);
@@ -155,6 +155,27 @@ describe('ProductsContext', () => {
     });
 
     it('should return all products if no filters', () => {
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
+        .and.returnValue([
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
+        ]);
+
+      expect(context.products())
+        .toEqual([
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
+        ]);
+    });
+
+    it('should return all products if empty categories', () => {
+      spyOn(context.filtersContext, methodNameFilters)
+        .and.returnValue({
+          categories: []
+        });
+
       spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([
           { name: 'Potion', price: 300, category: 'Medicines' },
