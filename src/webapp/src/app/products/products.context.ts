@@ -18,9 +18,11 @@ export class ProductsContext {
     if (filters.categories) {
       const categories = filters.categories ?? ['Uncategorized'];
 
-      products = products.filter(
-        product => categories.includes(product.category ?? 'Uncategorized')
-      );
+      if (categories.length > 0) {
+        products = products.filter(
+          product => categories.includes(product.category ?? 'Uncategorized')
+        );
+      }
     }
 
     if (filters.price) {
