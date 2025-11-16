@@ -13,18 +13,10 @@ export class ProductComponent {
   productsService = inject(ProductsService);
   route = inject(ActivatedRoute);
 
-  routeParams = toSignal(this.route.params);
-  name = computed<string>(() => {
-    const params = this.routeParams();
-    if (params !== undefined) {
-      return params['name'];
-    }
-
-    return '';
-  });
+  name = this.route.snapshot.paramMap.get('name') ?? '';
 
   fetchedProduct = resource({
-    params: () => ({ name: this.name() }),
+    params: () => ({ name: this.name }),
     loader: ({ params }) =>  this.productsService.getProduct(params.name)
   });
 
