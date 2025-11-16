@@ -31,7 +31,7 @@ export class ProductsContext {
         product => minPrice <= product.price && product.price <= maxPrice
       );
     }
-
+    
     return products;
   });
 

@@ -116,14 +116,14 @@ describe('Filters', () => {
     it('should get all products', () => {
       spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
       expect(fixture.componentInstance.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
     });
   });

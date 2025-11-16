@@ -1,12 +1,19 @@
 export interface Product {
-    name: string;
-    price: number;
-    description?: string;
-    category?: string;
-    resources?: ProductResources;
+  name: string;
+  price: number;
+  category?: string;
+  resources?: ProductResources;
+}
+
+export interface ProductDetails {
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  resources: ProductResources;
 }
 
 export interface ProductResources {
-    uri: string;
-    spriteUri: string;
+  uri: string;
+  spriteUri: string;
 }

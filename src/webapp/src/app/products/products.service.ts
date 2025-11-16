@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Product } from "./product/product.model";
+import { Product, ProductDetails } from "./product/product.model";
 
-const defaultProducts: Product[] = [
+const defaultProducts: ProductDetails[] = [
   {
     name: 'Escape Rope',
     description: "The Escape Rope is an item available in all of the handheld Pokémon games to date. It can also be found lying around on the ground within the game, or held by Pokémon with the Ability Pickup. Escape Ropes are used, in places such as caves, to warp back to the last Pokémon Center player healed at (or home if player never healed in Pokémon Center) in Generation I, and the entrance from which the player entered since Generation II.",
@@ -147,10 +147,16 @@ const defaultProducts: Product[] = [
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
   async getProducts() : Promise<Product[]> {
-    return defaultProducts;
+    return defaultProducts
+      .map(product => ({
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        resources: product.resources
+      }));
   }
 
-  async getProduct(name: string) : Promise<Product | undefined> {
+  async getProduct(name: string) : Promise<ProductDetails | undefined> {
     let products = defaultProducts;
 
     const product = products.find(product => product.name === name);
