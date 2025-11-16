@@ -78,7 +78,7 @@ const defaultProducts: ProductDetails[] = [
     name: 'Master Ball',
     description: "The Master Ball is the best and rarest ball available in any game. It is guaranteed to capture any wild Pokémon without fail.",
     price: 999999,
-    stock: 1,
+    stock: 0,
     category: 'Poké Balls',
     rarity: 'Legendary',
     resources: { uri: 'full/mball.png', spriteUri: 'sprite/mball.png' }
