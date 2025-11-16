@@ -164,5 +164,27 @@ describe('Product', () => {
       expect(compiled.querySelector('[data-testid=product-out-of-stock]')?.textContent)
         .toContain('Out of stock');
     });
+
+    it('should set img src', () => {
+      spyOn(fixture.componentInstance.fetchedProduct, methodNameFetchedProduct)
+        .and.returnValue({
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          description: 'Heals 20 HP',
+          rarity: 'Common',
+          stock: 0,
+          resources: {
+            uri: 'https://sample.com/potion.png',
+            spriteUri: 'https://sample.com/potion-sprite.png'
+          }
+        });
+
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.querySelector('[data-testid=product-image]')?.getAttribute('src'))
+        .toContain('https://sample.com/potion.png');
+    })
   });
 });
