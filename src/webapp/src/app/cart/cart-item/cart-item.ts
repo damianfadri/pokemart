@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { CartService } from '../cart.service';
+import { CartContext } from '../cart.context';
 import { Product } from '../../products/product/product.model';
 
 @Component({
@@ -12,12 +12,12 @@ export class CartItemComponent {
   product = input.required<Product>();
   quantity = input.required<number>();
 
-  cartService = inject(CartService);
+  cartContext = inject(CartContext);
 
   total = computed(() => this.product().price * this.quantity());
 
   removeFromCart() {
-    this.cartService.remove({
+    this.cartContext.remove({
       product: this.product(),
       quantity: this.quantity()
     });

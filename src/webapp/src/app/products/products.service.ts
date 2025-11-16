@@ -1,199 +1,209 @@
-import { computed, inject, Injectable, resource } from '@angular/core';
-import { Product } from "./product/product.model";
-import { FiltersService } from '../filters/filters.service';
+import { Injectable } from '@angular/core';
+import { Product, ProductDetails } from './product/product.model';
 
-const defaultProducts: Product[] = [
+const defaultProducts: ProductDetails[] = [
   {
     name: 'Escape Rope',
     description: "The Escape Rope is an item available in all of the handheld Pokémon games to date. It can also be found lying around on the ground within the game, or held by Pokémon with the Ability Pickup. Escape Ropes are used, in places such as caves, to warp back to the last Pokémon Center player healed at (or home if player never healed in Pokémon Center) in Generation I, and the entrance from which the player entered since Generation II.",
     price: 550,
+    stock: 30,
     category: 'Items',
+    rarity: 'Common',
     resources: { uri: 'full/rope.png', spriteUri: 'sprite/rope.png' }
   },
   {
     name: 'Repel',
     description: "Repels are items in the Pokémon series which keeps Wild Pokémon with a level lower than the Pokémon in the front of the party away. It must be used out of battle and the effect of a Repel wears off after walking a hundred steps.",
     price: 350,
+    stock: 30,
     category: 'Items',
+    rarity: 'Common',
     resources: { uri: 'full/repel.png', spriteUri: 'sprite/repel.png' }
   },
   {
     name: 'Super Repel',
     description: "A Super Repel is an item in the Pokémon series which keeps Wild Pokémon with a level lower than the Pokémon in the front of the party away. A Super Repel effect wears out after walking for 200 steps.",
     price: 500,
+    stock: 20,
     category: 'Items',
+    rarity: 'Uncommon',
     resources: { uri: 'full/srepel.png', spriteUri: 'sprite/srepel.png' }
   },
   {
     name: 'Max Repel',
     description: "The Max Repel is an item that can be used to repel wild Pokémon weaker than the front Pokémon of the party away from the player for 250 steps. It must be used outside of battle.",
     price: 700,
+    stock: 15,
     category: 'Items',
+    rarity: 'Rare',
     resources: { uri: 'full/mrepel.png', spriteUri: 'sprite/mrepel.png' }
   },
   {
     name: 'Revive',
     description: "A revive is an item that revives your fainted Pokémon by half of its HP. It can be found while digging underground, by picking it up, or purchasing it from shops.",
     price: 1500,
+    stock: 10,
     category: 'Medicines',
+    rarity: 'Rare',
     resources: { uri: 'full/revive.png', spriteUri: 'sprite/revive.png' }
   },
   {
     name: 'Poké Ball',
     description: "The Poké Ball is the major Poké Ball in the Pokémon saga. It features a red top, white bottom, and a horizontal black ring circling the ball. This type of Poké Ball is the weakest and the only type typically available at the beginning of the Pokémon games.",
     price: 200,
+    stock: 50,
     category: 'Poké Balls',
+    rarity: 'Common',
     resources: { uri: 'full/pball.png', spriteUri: 'sprite/pball.png' }
   },
   {
     name: 'Great Ball',
     description: "The Great Ball is a type of Poké Ball that has a blue top and a white bottom, as well as the horizontal black ring and two red sections. It has a 50% higher chance to successfully catch a Pokémon than a regular Poké Ball.",
     price: 600,
+    stock: 30,
     category: 'Poké Balls',
+    rarity: 'Uncommon',
     resources: { uri: 'full/gball.png', spriteUri: 'sprite/gball.png' }
   },
   {
     name: 'Ultra Ball',
     description: "The Ultra Ball has a 100% higher chance to catch a Pokémon than a regular Poké Ball, and a 33% higher chance than a Great Ball.",
     price: 1200,
+    stock: 15,
     category: 'Poké Balls',
+    rarity: 'Rare',
     resources: { uri: 'full/uball.png', spriteUri: 'sprite/uball.png' }
   },
   {
     name: 'Master Ball',
     description: "The Master Ball is the best and rarest ball available in any game. It is guaranteed to capture any wild Pokémon without fail.",
     price: 999999,
+    stock: 0,
     category: 'Poké Balls',
+    rarity: 'Legendary',
     resources: { uri: 'full/mball.png', spriteUri: 'sprite/mball.png' }
   },
   {
     name: 'Potion',
     description: "A Potion is an item that heals 20 HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 300,
+    stock: 50,
     category: 'Medicines',
+    rarity: 'Common',
     resources: { uri: 'full/potion.png', spriteUri: 'sprite/potion.png' }
   },
   {
     name: 'Super Potion',
     description: "A Super Potion is an upgraded version of the Potion. It is an item that heals 50 HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 700,
+    stock: 30,
     category: 'Medicines',
+    rarity: 'Uncommon',
     resources: { uri: 'full/spotion.png', spriteUri: 'sprite/spotion.png' }
   },
   {
     name: 'Hyper Potion',
     description: "A Hyper Potion is an upgraded version of the Super Potion. It is an item that heals a Pokémon by 200 HP. It has no effect on a fainted Pokémon.",
     price: 1200,
+    stock: 16,
     category: 'Medicines',
+    rarity: 'Rare',
     resources: { uri: 'full/hpotion.png', spriteUri: 'sprite/hpotion.png' }
   },
   {
     name: 'Max Potion',
     description: "The Max Potion is an item that fully restores the HP of a Pokémon. It has no effect on a fainted Pokémon.",
     price: 2500,
+    stock: 10,
     category: 'Medicines',
+    rarity: 'Very Rare',
     resources: { uri: 'full/mpotion.png', spriteUri: 'sprite/mpotion.png' }
   },
   {
     name: 'Full Restore',
     description: "The Full Restore is an item that restores all of the HP of a Pokémon while also healing persisting status ailments.",
     price: 3000,
+    stock: 5,
     category: 'Medicines',
+    rarity: 'Very Rare',
     resources: { uri: 'full/fullrestore.png', spriteUri: 'sprite/fullrestore.png' }
   },
   {
     name: 'Antidote',
     description: "Antidote is an item that heals a Pokémon with poison. It can be sold and is found at Poké Marts.",
     price: 100,
+    stock: 30,
     category: 'Medicines',
+    rarity: 'Common',
     resources: { uri: 'full/antidote.png', spriteUri: 'sprite/antidote.png' }
   },
   {
     name: 'Paralyze Heal',
     description: "Paralyze Heal is a medicine item that cures the Paralysis status ailment of a single Pokémon.",
     price: 200,
+    stock: 30,
     category: 'Medicines',
+    rarity: 'Common',
     resources: { uri: 'full/paralyze.png', spriteUri: 'sprite/paralyze.png' }
   },
   {
     name: 'Awakening',
     description: "Awakening is a status ailment healing item which awakens a sleeping Pokémon and can be used both during and outside battle.",
     price: 250,
+    stock: 25,
     category: 'Medicines',
+    rarity: 'Uncommon',
     resources: { uri: 'full/awakening.png', spriteUri: 'sprite/awakening.png' }
   },
   {
     name: 'Burn Heal',
     description: "Burn Heal is an item that heals a burned Pokémon.",
     price: 250,
+    stock: 25,
     category: 'Medicines',
+    rarity: 'Uncommon',
     resources: { uri: 'full/burnheal.png', spriteUri: 'sprite/burnheal.png' }
   },
   {
     name: 'Ice Heal',
     description: "Ice Heal is a spray-type medicine for freezing. It can be used to defrost a Pokémon that has been frozen solid.",
     price: 250,
+    stock: 25,
     category: 'Medicines',
+    rarity: 'Uncommon',
     resources: { uri: 'full/iceheal.png', spriteUri: 'sprite/iceheal.png' }
   },
   {
     name: 'Full Heal',
     description: "Full Heal is a spray-type medicine that can be used to heal all the status conditions of a Pokémon.",
     price: 600,
+    stock: 15,
     category: 'Medicines',
+    rarity: 'Rare',
     resources: { uri: 'full/fullheal.png', spriteUri: 'sprite/fullheal.png' }
   }
 ];
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
+  async getProducts() : Promise<Product[]> {
+    return defaultProducts
+      .map(product => ({
+        name: product.name,
+        price: product.price,
+        category: product.category,
+        resources: product.resources
+      }));
+  }
 
-  filtersService = inject(FiltersService);
+  async getProduct(name: string) : Promise<ProductDetails | undefined> {
+    let products = defaultProducts;
 
-  warehouse = resource({
-    loader: () => Promise.resolve(defaultProducts)
-  });
-
-  products = computed(() => {
-    if (this.warehouse.hasValue()) {
-
-      const filters = this.filtersService.filters();
-      let products = this.warehouse.value();
-
-      if (filters.categories) {
-        const categories = filters.categories ?? ['Uncategorized'];
-
-        products = products.filter(
-          product => categories.includes(product.category ?? 'Uncategorized')
-        );
-      }
-
-      if (filters.price) {
-        const minPrice = filters.price.min ?? 0;
-        const maxPrice = filters.price.max ?? Number.MAX_VALUE;
-
-        products = products.filter(
-          product => minPrice <= product.price && product.price <= maxPrice
-        );
-      }
-
-      return products;
+    const product = products.find(product => product.name === name);
+    if (product) {
+      return product;
     }
 
-    return [];
-  });
-
-  categories = computed(() => {
-    if (this.warehouse.hasValue()) {
-      const products = this.warehouse.value();
-
-      if (products.length === 0) {
-        return new Set<string>(['Uncategorized']);
-      }
-      
-      return new Set<string>(products.map(product => product.category ?? 'Uncategorized'));
-    }
-
-    return new Set<string>(['Uncategorized']);
-  });
+    return undefined;
+  }
 }

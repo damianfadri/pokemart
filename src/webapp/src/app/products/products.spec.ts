@@ -2,13 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsComponent } from './products';
 import { ProductsService } from './products.service';
-import { FiltersService } from '../filters/filters.service';
+import { FiltersContext } from '../filters/filters.context';
+import { provideRouter } from '@angular/router';
+import { ProductsContext } from './products.context';
 import { ResourceRef } from '@angular/core';
 import { Product } from './product/product.model';
 
-const methodNameProducts: keyof ProductsService = 'products';
-const methodNameValue: keyof ResourceRef<Product[] | undefined> = 'value';
-const methodNameFilters: keyof FiltersService = 'filters';
+const methodNameProducts: keyof ProductsContext = 'products';
+const methodNameFetchedProducts: keyof ResourceRef<Product[]> = 'value';
+const methodNameFilters: keyof FiltersContext = 'filters';
 
 describe('ProductsComponent', () => {
   let fixture: ComponentFixture<ProductsComponent>;
@@ -16,7 +18,7 @@ describe('ProductsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProductsComponent],
-      providers: [ProductsService, FiltersService],
+      providers: [ProductsService, FiltersContext, provideRouter([])],
     });
 
     fixture = TestBed.createComponent(ProductsComponent);
@@ -24,23 +26,23 @@ describe('ProductsComponent', () => {
 
   describe('products()', () => {
     it('should return all products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
       expect(fixture.componentInstance.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
     });
 
     it('should return 0 products if there are no products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([]);
 
       expect(fixture.componentInstance.products())
@@ -48,11 +50,11 @@ describe('ProductsComponent', () => {
     });
 
     it('should render all products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
       fixture.detectChanges();
@@ -71,11 +73,11 @@ describe('ProductsComponent', () => {
 
   describe('count()', () => {
     it('should return the count of all products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
       expect(fixture.componentInstance.count())
@@ -83,7 +85,7 @@ describe('ProductsComponent', () => {
     });
 
     it('should return 0 if there are no products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([]);
 
       expect(fixture.componentInstance.count())
@@ -92,193 +94,193 @@ describe('ProductsComponent', () => {
   });
 });
 
-describe('ProductsService', () => {
-  let service: ProductsService;
+describe('ProductsContext', () => {
+  let context: ProductsContext;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductsService, FiltersService]
+      providers: [ProductsService, FiltersContext]
     });
 
-    service = TestBed.inject(ProductsService);
+    context = TestBed.inject(ProductsContext);
   });
 
   describe('categories()', () => {
     it('should return unique categories', () => {
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, 'value')
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
-      expect(service.categories())
+      expect(context.categories())
         .toEqual(
-          new Set<string>([ 'Medicines', 'Poké Balls' ])
-        );
+          new Set<string>([ 'Medicines', 'Poké Balls' ]));
     });
 
     it('should add uncategorized if a product has no category', () => {
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, 'value')
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-          { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+          { name: 'Unknown Product', price: 1 }
         ]);
 
-      expect(service.categories())
+      expect(context.categories())
         .toEqual(
           new Set<string>([ 'Medicines', 'Poké Balls', 'Uncategorized' ])
         );
     });
 
     it('should add uncategorized if no products', () => {
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([]);
 
-      expect(service.categories())
+      expect(context.categories())
         .toEqual(
           new Set<string>([ 'Uncategorized' ])
         );
     });
   });
 
-  describe('products()', () => {
-    it('should return 0 products if warehouse is empty', () => {
-      spyOn(service.warehouse, methodNameValue)
+  describe('getProducts()', () => {
+    it('should return 0 products if fetched products are empty', () => {
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([]);
 
-      expect(service.products()).toEqual([]);
+      expect(context.products())
+        .toEqual([]);
     });
 
     it('should return all products if no filters', () => {
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
-      expect(service.products())
+      expect(context.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
     });
 
     it('should return filtered products from target category', () => {
-      spyOn(service.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Medicines']
         });
 
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
-      expect(service.products())
+      expect(context.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' }
         ]);
     });
 
     it('should return filtered products from multiple categories', () => {
-      spyOn(service.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Medicines', 'Items']
         });
 
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-          { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+          { name: 'Escape Rope', price: 550, category: 'Items' }
         ]);
 
-      expect(service.products())
+      expect(context.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Escape Rope', price: 550, description: 'Escapes the room', category: 'Items' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Escape Rope', price: 550, category: 'Items' }
         ]);
     })
 
     it('should return uncategorized product if target category is uncategorized', () => {
-      spyOn(service.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Uncategorized']
         });
 
-      spyOn(service.warehouse, methodNameValue)
+      spyOn(context.fetchedProducts, methodNameFetchedProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-          { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Super Potion', price: 700, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+          { name: 'Unknown Product', price: 1 }
         ]);
 
-      expect(service.products())
+      expect(context.products())
         .toEqual([
-          { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+          { name: 'Unknown Product', price: 1 }
         ]);
     });
   });
 
   it('should return filtered products from min price', () => {
-    spyOn(service.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           min: 500
         }
       });
 
-    spyOn(service.warehouse, methodNameValue)
+    spyOn(context.fetchedProducts, methodNameFetchedProducts)
       .and.returnValue([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+        { name: 'Potion', price: 300, category: 'Medicines' },
+        { name: 'Super Potion', price: 700, category: 'Medicines' },
+        { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1 }
       ]);
 
-    expect(service.products())
+    expect(context.products())
       .toEqual([
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
+        { name: 'Super Potion', price: 700, category: 'Medicines' },
+        { name: 'Great Ball', price: 600, category: 'Poké Balls' },
       ]);
   });
 
   it('should return filtered products from max price', () => {
-    spyOn(service.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           max: 500
         }
       });
 
-    spyOn(service.warehouse, methodNameValue)
+    spyOn(context.fetchedProducts, methodNameFetchedProducts)
       .and.returnValue([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+        { name: 'Potion', price: 300, category: 'Medicines' },
+        { name: 'Super Potion', price: 700, category: 'Medicines' },
+        { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1 }
       ]);
 
-    expect(service.products())
+    expect(context.products())
       .toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+        { name: 'Potion', price: 300, category: 'Medicines' },
+        { name: 'Unknown Product', price: 1 }
       ]);
   });
 
   it('should return filtered products from min and max prices', () => {
-    spyOn(service.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           min: 300,
@@ -286,17 +288,17 @@ describe('ProductsService', () => {
         }
       });
 
-    spyOn(service.warehouse, methodNameValue)
+    spyOn(context.fetchedProducts, methodNameFetchedProducts)
       .and.returnValue([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-        { name: 'Super Potion', price: 700, description: 'Heals 50 HP', category: 'Medicines' },
-        { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' },
-        { name: 'Unknown Product', price: 1, description: 'An unknown product' }
+        { name: 'Potion', price: 300, category: 'Medicines' },
+        { name: 'Super Potion', price: 700, category: 'Medicines' },
+        { name: 'Great Ball', price: 600, category: 'Poké Balls' },
+        { name: 'Unknown Product', price: 1 }
       ]);
 
-    expect(service.products())
+    expect(context.products())
       .toEqual([
-        { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
+        { name: 'Potion', price: 300, category: 'Medicines' },
       ]);
   });
 });

@@ -1,0 +1,21 @@
+<article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md cursor-pointer" [routerLink]="['/products', product().name]">
+  <div class="h-32 bg-cream-500 rounded flex items-center justify-center text-gray-400">
+    <img class="h-24" src="{{ product().resources?.uri }}" alt="Image" />
+  </div>
+
+  <h3 class="mt-3 text-sm font-christiana" data-testid="item-name">{{ product().name }}</h3>
+  <p class="text-lg text-gray-500" data-testid="item-category">{{ product().category }}</p>
+  <div class="mt-3 flex items-center justify-between">
+    <div class="font-bold text-2xl" data-testid="item-price">₽{{ product().price }}</div>
+    <button
+      class="bg-pumpkin-500 text-gray-800 px-3 font-semibold py-1 rounded text-md cursor-pointer
+             transition transform duration-150 ease-in-out
+             hover:scale-115 active:scale-95 active:shadow-inner
+             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-500"
+      (click)="addToCart(); $event.stopPropagation()"
+      data-testid="add-button"
+    >
+      Add
+    </button>
+  </div>
+</article>

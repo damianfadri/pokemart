@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CartService } from './cart.service';
+import { CartContext } from './cart.context';
 import { CartItemComponent } from './cart-item/cart-item';
 
 @Component({
@@ -9,9 +9,9 @@ import { CartItemComponent } from './cart-item/cart-item';
   styleUrl: './cart.css',
 })
 export class CartComponent {
-  cartService = inject(CartService);
+  cartContext = inject(CartContext);
 
-  items = computed(() => this.cartService.list());
+  items = computed(() => this.cartContext.list());
 
   total = computed(() => this.items().reduce((total, cartItem) => 
     total + cartItem.product.price * cartItem.quantity, 0));

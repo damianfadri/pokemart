@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartItemComponent } from './cart-item';
-import { CartService } from '../cart.service';
+import { CartContext } from '../cart.context';
 
 const methodNameProduct: keyof CartItemComponent = 'product';
 const methodNameQuantity: keyof CartItemComponent = 'quantity';
-const methodNameRemove: keyof CartService = 'remove';
+const methodNameRemove: keyof CartContext = 'remove';
 
 describe('CartItem', () => {
   let fixture: ComponentFixture<CartItemComponent>;
@@ -111,7 +111,7 @@ describe('CartItem', () => {
   });
 
   describe('removeFromCart()', () => {
-    it('should call cartService.remove() with the correct item', () => {
+    it('should call cartContext.remove() with the correct item', () => {
       fixture.componentRef.setInput(
         methodNameProduct as any, {
           name: 'Potion',
@@ -120,11 +120,11 @@ describe('CartItem', () => {
 
       fixture.componentRef.setInput(methodNameQuantity, 5);
 
-      spyOn(fixture.componentInstance.cartService, methodNameRemove);
+      spyOn(fixture.componentInstance.cartContext, methodNameRemove);
 
       fixture.componentInstance.removeFromCart();
 
-      expect(fixture.componentInstance.cartService.remove)
+      expect(fixture.componentInstance.cartContext.remove)
         .toHaveBeenCalledWith({
           product: {
             name: 'Potion',

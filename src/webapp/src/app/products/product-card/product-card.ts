@@ -1,0 +1,23 @@
+import { Component, inject, input } from '@angular/core';
+import { Product } from '../product/product.model';
+import { CartContext } from '../../cart/cart.context';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-product-card',
+  imports: [RouterLink],
+  templateUrl: './product-card.html',
+  styleUrl: './product-card.css',
+})
+export class ProductCardComponent {
+  product = input.required<Product>();
+
+  cartContext = inject(CartContext);
+
+  addToCart() {
+    this.cartContext.add({
+      product: this.product(),
+      quantity: 1
+    });
+  }
+}

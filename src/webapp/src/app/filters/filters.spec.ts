@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersComponent } from './filters';
-import { ProductsService } from '../products/products.service';
-import { FiltersService } from './filters.service';
+import { FiltersContext } from './filters.context';
 import { WritableSignal } from '@angular/core';
 import { Filters } from './filters.model';
+import { ProductsContext } from '../products/products.context';
 
 const methodNameSet: keyof WritableSignal<Filters | undefined> = 'set';
-const methodNameProducts: keyof ProductsService = 'products';
-const methodNameCategories: keyof ProductsService = 'categories';
+const methodNameProducts: keyof ProductsContext = 'products';
+const methodNameCategories: keyof ProductsContext = 'categories';
 
 describe('Filters', () => {
   let fixture: ComponentFixture<FiltersComponent>;
@@ -16,7 +16,7 @@ describe('Filters', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FiltersComponent],
-      providers: [ProductsService, FiltersService],
+      providers: [ProductsContext, FiltersContext],
     });
     
     fixture = TestBed.createComponent(FiltersComponent);
@@ -89,7 +89,7 @@ describe('Filters', () => {
   });
 
   describe('onApply()', () => {
-    it('should call filtersService.filters with the correct filter', () => {
+    it('should call filtersContext.filters with the correct filter', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -97,11 +97,11 @@ describe('Filters', () => {
       fixture.componentInstance.minPrice.set(100);
       fixture.componentInstance.maxPrice.set(300);
 
-      spyOn(fixture.componentInstance.filtersService.filters, methodNameSet);
+      spyOn(fixture.componentInstance.filtersContext.filters, methodNameSet);
 
       fixture.componentInstance.onApply();
 
-      expect(fixture.componentInstance.filtersService.filters.set)
+      expect(fixture.componentInstance.filtersContext.filters.set)
         .toHaveBeenCalledWith({
           categories: ['Category1'],
           price: {
@@ -114,23 +114,23 @@ describe('Filters', () => {
 
   describe('products()', () => {
     it('should get all products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
 
       expect(fixture.componentInstance.products())
         .toEqual([
-          { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
-          { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
+          { name: 'Potion', price: 300, category: 'Medicines' },
+          { name: 'Great Ball', price: 600, category: 'Poké Balls' }
         ]);
     });
   });
 
-  describe('filters()', () => {
+  describe('categories()', () => {
     it('should get all categories', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameCategories)
+      spyOn(fixture.componentInstance.productsContext, methodNameCategories)
         .and.returnValue(new Set<string>([ 'Medicines', 'Poké Balls' ]));
 
       expect(fixture.componentInstance.categories())

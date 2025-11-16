@@ -1,6 +1,6 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
-import { FiltersService } from './filters.service';
-import { ProductsService } from '../products/products.service';
+import { FiltersContext } from './filters.context';
+import { ProductsContext } from '../products/products.context';
 
 @Component({
   selector: 'app-filters',
@@ -9,11 +9,11 @@ import { ProductsService } from '../products/products.service';
   styleUrl: './filters.css',
 })
 export class FiltersComponent {
-  filtersService = inject(FiltersService);
-  productsService = inject(ProductsService);
+  filtersContext = inject(FiltersContext);
+  productsContext = inject(ProductsContext);
 
-  products = computed(() => this.productsService.products());
-  categories = computed(() => this.productsService.categories());
+  products = computed(() => this.productsContext.products());
+  categories = computed(() => this.productsContext.categories());
 
   selectedCategories = signal<Set<string>>(new Set<string>());
 
@@ -61,7 +61,16 @@ export class FiltersComponent {
   }
 
   onApply() {
-    this.filtersService.filters.set({
+
+    console.log(JSON.stringify({
+      categories: [...this.selectedCategories()],
+      price: {
+        min: this.minPrice(), 
+        max: this.maxPrice()
+      }
+    }));
+    
+    this.filtersContext.filters.set({
       categories: [...this.selectedCategories()],
       price: {
         min: this.minPrice(), 
