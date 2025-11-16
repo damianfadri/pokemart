@@ -10,6 +10,8 @@ export interface ProductDetails {
   price: number;
   description: string;
   category: string;
+  rarity: string;
+  stock: number;
   resources: ProductResources;
 }
 
