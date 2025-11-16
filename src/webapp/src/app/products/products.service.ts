@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, resource } from '@angular/core';
-import { Product } from "./product/product.model";
+import { Product } from "./product-card/product.model";
 import { FiltersService } from '../filters/filters.service';
 
 const defaultProducts: Product[] = [

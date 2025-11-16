@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductComponent } from './product';
+import { ProductCardComponent } from './product-card';
 import { CartService } from '../../cart/cart.service';
 
-const methodNameProduct: keyof ProductComponent = 'product';
+const methodNameProduct: keyof ProductCardComponent = 'product';
 const methodNameAdd: keyof CartService = 'add';
 
-describe('Product', () => {
-  let fixture: ComponentFixture<ProductComponent>;
+describe('ProductCard', () => {
+  let fixture: ComponentFixture<ProductCardComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ProductComponent],
+      imports: [ProductCardComponent],
       providers: [CartService]
     });
     
-    fixture = TestBed.createComponent(ProductComponent);
+    fixture = TestBed.createComponent(ProductCardComponent);
   });
 
   describe('product()', () => {

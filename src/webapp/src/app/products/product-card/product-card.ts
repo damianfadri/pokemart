@@ -3,12 +3,12 @@ import { Product } from './product.model';
 import { CartService } from '../../cart/cart.service';
 
 @Component({
-  selector: 'app-product',
+  selector: 'app-product-card',
   imports: [],
-  templateUrl: './product.html',
-  styleUrl: './product.css',
+  templateUrl: './product-card.html',
+  styleUrl: './product-card.css',
 })
-export class ProductComponent {
+export class ProductCardComponent {
   product = input.required<Product>();
 
   cartService = inject(CartService);

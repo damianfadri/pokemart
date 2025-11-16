@@ -1,10 +1,10 @@
 import { Component, computed, inject, resource } from '@angular/core';
 import { ProductsService } from './products.service';
-import { ProductComponent } from './product/product';
+import { ProductCardComponent } from './product-card/product-card';
 
 @Component({
   selector: 'app-products',
-  imports: [ProductComponent],
+  imports: [ProductCardComponent],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
