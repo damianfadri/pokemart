@@ -4,7 +4,7 @@ import { ProductsComponent } from './products';
 import { ProductsService } from './products.service';
 import { FiltersService } from '../filters/filters.service';
 import { ResourceRef } from '@angular/core';
-import { Product } from './product-card/product.model';
+import { Product } from './product/product.model';
 
 const methodNameProducts: keyof ProductsService = 'products';
 const methodNameValue: keyof ResourceRef<Product[] | undefined> = 'value';
