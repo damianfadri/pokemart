@@ -1,10 +1,11 @@
 import { Component, inject, input } from '@angular/core';
 import { Product } from '../product/product.model';
 import { CartService } from '../../cart/cart.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })

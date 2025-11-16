@@ -1,6 +1,5 @@
-import { computed, inject, Injectable, resource } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Product } from "./product/product.model";
-import { FiltersService } from '../filters/filters.service';
 
 const defaultProducts: Product[] = [
   {
@@ -147,53 +146,18 @@ const defaultProducts: Product[] = [
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
+  async getProducts() : Promise<Product[]> {
+    return defaultProducts;
+  }
 
-  filtersService = inject(FiltersService);
+  async getProduct(name: string) : Promise<Product | undefined> {
+    let products = defaultProducts;
 
-  warehouse = resource({
-    loader: () => Promise.resolve(defaultProducts)
-  });
-
-  products = computed(() => {
-    if (this.warehouse.hasValue()) {
-
-      const filters = this.filtersService.filters();
-      let products = this.warehouse.value();
-
-      if (filters.categories) {
-        const categories = filters.categories ?? ['Uncategorized'];
-
-        products = products.filter(
-          product => categories.includes(product.category ?? 'Uncategorized')
-        );
-      }
-
-      if (filters.price) {
-        const minPrice = filters.price.min ?? 0;
-        const maxPrice = filters.price.max ?? Number.MAX_VALUE;
-
-        products = products.filter(
-          product => minPrice <= product.price && product.price <= maxPrice
-        );
-      }
-
-      return products;
+    const product = products.find(product => product.name === name);
+    if (product) {
+      return product;
     }
 
-    return [];
-  });
-
-  categories = computed(() => {
-    if (this.warehouse.hasValue()) {
-      const products = this.warehouse.value();
-
-      if (products.length === 0) {
-        return new Set<string>(['Uncategorized']);
-      }
-      
-      return new Set<string>(products.map(product => product.category ?? 'Uncategorized'));
-    }
-
-    return new Set<string>(['Uncategorized']);
-  });
+    return undefined;
+  }
 }

@@ -1,6 +1,6 @@
-import { Component, computed, inject, resource } from '@angular/core';
-import { ProductsService } from './products.service';
+import { Component, computed, inject } from '@angular/core';
 import { ProductCardComponent } from './product-card/product-card';
+import { ProductsContext } from './product.context';
 
 @Component({
   selector: 'app-products',
@@ -9,8 +9,8 @@ import { ProductCardComponent } from './product-card/product-card';
   styleUrl: './products.css',
 })
 export class ProductsComponent {
-  productsService = inject(ProductsService);
+  productsContext = inject(ProductsContext);
 
-  products = computed(() => this.productsService.products());
-  count = computed(() => this.products().length);
+  products = computed(() => this.productsContext.products());
+  count = computed(() => (this.products().length));
 }

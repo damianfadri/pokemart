@@ -1,4 +1,4 @@
-<article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md">
+<article class="bg-white rounded-lg p-3 shadow-sm hover:shadow-md cursor-pointer" [routerLink]="['/products', product().name]">
   <div class="h-32 bg-cream-500 rounded flex items-center justify-center text-gray-400">
     <img class="h-24" src="{{ product().resources?.uri }}" alt="Image" />
   </div>
@@ -12,7 +12,7 @@
              transition transform duration-150 ease-in-out
              hover:scale-115 active:scale-95 active:shadow-inner
              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pumpkin-500"
-      (click)="addToCart()"
+      (click)="addToCart(); $event.stopPropagation()"
       data-testid="add-button"
     >
       Add

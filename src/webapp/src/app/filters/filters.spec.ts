@@ -5,10 +5,11 @@ import { ProductsService } from '../products/products.service';
 import { FiltersService } from './filters.service';
 import { WritableSignal } from '@angular/core';
 import { Filters } from './filters.model';
+import { ProductsContext } from '../products/product.context';
 
 const methodNameSet: keyof WritableSignal<Filters | undefined> = 'set';
-const methodNameProducts: keyof ProductsService = 'products';
-const methodNameCategories: keyof ProductsService = 'categories';
+const methodNameProducts: keyof ProductsContext = 'products';
+const methodNameCategories: keyof ProductsContext = 'categories';
 
 describe('Filters', () => {
   let fixture: ComponentFixture<FiltersComponent>;
@@ -16,7 +17,7 @@ describe('Filters', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FiltersComponent],
-      providers: [ProductsService, FiltersService],
+      providers: [ProductsContext, FiltersService],
     });
     
     fixture = TestBed.createComponent(FiltersComponent);
@@ -114,7 +115,7 @@ describe('Filters', () => {
 
   describe('products()', () => {
     it('should get all products', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameProducts)
+      spyOn(fixture.componentInstance.productsContext, methodNameProducts)
         .and.returnValue([
           { name: 'Potion', price: 300, description: 'Heals 20 HP', category: 'Medicines' },
           { name: 'Great Ball', price: 600, description: 'Increased catch rate', category: 'Poké Balls' }
@@ -128,9 +129,9 @@ describe('Filters', () => {
     });
   });
 
-  describe('filters()', () => {
+  describe('categories()', () => {
     it('should get all categories', () => {
-      spyOn(fixture.componentInstance.productsService, methodNameCategories)
+      spyOn(fixture.componentInstance.productsContext, methodNameCategories)
         .and.returnValue(new Set<string>([ 'Medicines', 'Poké Balls' ]));
 
       expect(fixture.componentInstance.categories())

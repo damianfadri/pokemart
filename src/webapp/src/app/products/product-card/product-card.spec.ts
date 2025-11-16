@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductCardComponent } from './product-card';
 import { CartService } from '../../cart/cart.service';
+import { ActivatedRoute, provideRouter, RouterModule } from '@angular/router';
 
 const methodNameProduct: keyof ProductCardComponent = 'product';
 const methodNameAdd: keyof CartService = 'add';
@@ -12,7 +13,7 @@ describe('ProductCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProductCardComponent],
-      providers: [CartService]
+      providers: [CartService, provideRouter([])]
     });
     
     fixture = TestBed.createComponent(ProductCardComponent);
