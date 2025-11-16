@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsComponent } from './products';
 import { ProductsService } from './products.service';
-import { FiltersService } from '../filters/filters.service';
-import { ActivatedRoute, provideRouter, RouterModule } from '@angular/router';
-import { ProductsContext } from './product.context';
+import { FiltersContext } from '../filters/filters.context';
+import { provideRouter } from '@angular/router';
+import { ProductsContext } from './products.context';
 import { ResourceRef } from '@angular/core';
 import { Product } from './product/product.model';
 
 const methodNameProducts: keyof ProductsContext = 'products';
 const methodNameFetchedProducts: keyof ResourceRef<Product[]> = 'value';
-const methodNameFilters: keyof FiltersService = 'filters';
+const methodNameFilters: keyof FiltersContext = 'filters';
 
 describe('ProductsComponent', () => {
   let fixture: ComponentFixture<ProductsComponent>;
@@ -18,7 +18,7 @@ describe('ProductsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProductsComponent],
-      providers: [ProductsService, FiltersService, provideRouter([])],
+      providers: [ProductsService, FiltersContext, provideRouter([])],
     });
 
     fixture = TestBed.createComponent(ProductsComponent);
@@ -99,7 +99,7 @@ describe('ProductsContext', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductsService, FiltersService]
+      providers: [ProductsService, FiltersContext]
     });
 
     context = TestBed.inject(ProductsContext);
@@ -171,7 +171,7 @@ describe('ProductsContext', () => {
     });
 
     it('should return filtered products from target category', () => {
-      spyOn(context.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Medicines']
         });
@@ -191,7 +191,7 @@ describe('ProductsContext', () => {
     });
 
     it('should return filtered products from multiple categories', () => {
-      spyOn(context.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Medicines', 'Items']
         });
@@ -213,7 +213,7 @@ describe('ProductsContext', () => {
     })
 
     it('should return uncategorized product if target category is uncategorized', () => {
-      spyOn(context.filtersService, methodNameFilters)
+      spyOn(context.filtersContext, methodNameFilters)
         .and.returnValue({
           categories: ['Uncategorized']
         });
@@ -234,7 +234,7 @@ describe('ProductsContext', () => {
   });
 
   it('should return filtered products from min price', () => {
-    spyOn(context.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           min: 500
@@ -257,7 +257,7 @@ describe('ProductsContext', () => {
   });
 
   it('should return filtered products from max price', () => {
-    spyOn(context.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           max: 500
@@ -280,7 +280,7 @@ describe('ProductsContext', () => {
   });
 
   it('should return filtered products from min and max prices', () => {
-    spyOn(context.filtersService, methodNameFilters)
+    spyOn(context.filtersContext, methodNameFilters)
       .and.returnValue({
         price: {
           min: 300,

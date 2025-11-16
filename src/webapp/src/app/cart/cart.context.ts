@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { CartItem } from './cart-item/cart-item.model';
 
 @Injectable({ providedIn: 'root' })
-export class CartService {
+export class CartContext {
   private items = signal<CartItem[]>([]);
 
   list(): CartItem[] {

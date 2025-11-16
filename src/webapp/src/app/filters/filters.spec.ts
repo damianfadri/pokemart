@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FiltersComponent } from './filters';
-import { ProductsService } from '../products/products.service';
-import { FiltersService } from './filters.service';
+import { FiltersContext } from './filters.context';
 import { WritableSignal } from '@angular/core';
 import { Filters } from './filters.model';
-import { ProductsContext } from '../products/product.context';
+import { ProductsContext } from '../products/products.context';
 
 const methodNameSet: keyof WritableSignal<Filters | undefined> = 'set';
 const methodNameProducts: keyof ProductsContext = 'products';
@@ -17,7 +16,7 @@ describe('Filters', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FiltersComponent],
-      providers: [ProductsContext, FiltersService],
+      providers: [ProductsContext, FiltersContext],
     });
     
     fixture = TestBed.createComponent(FiltersComponent);
@@ -90,7 +89,7 @@ describe('Filters', () => {
   });
 
   describe('onApply()', () => {
-    it('should call filtersService.filters with the correct filter', () => {
+    it('should call filtersContext.filters with the correct filter', () => {
       fixture.componentInstance.selectedCategories.set(
         new Set<string>(['Category1'])
       );
@@ -98,11 +97,11 @@ describe('Filters', () => {
       fixture.componentInstance.minPrice.set(100);
       fixture.componentInstance.maxPrice.set(300);
 
-      spyOn(fixture.componentInstance.filtersService.filters, methodNameSet);
+      spyOn(fixture.componentInstance.filtersContext.filters, methodNameSet);
 
       fixture.componentInstance.onApply();
 
-      expect(fixture.componentInstance.filtersService.filters.set)
+      expect(fixture.componentInstance.filtersContext.filters.set)
         .toHaveBeenCalledWith({
           categories: ['Category1'],
           price: {

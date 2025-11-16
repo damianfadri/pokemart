@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductCardComponent } from './product-card';
-import { CartService } from '../../cart/cart.service';
+import { CartContext } from '../../cart/cart.context';
 import { ActivatedRoute, provideRouter, RouterModule } from '@angular/router';
 
 const methodNameProduct: keyof ProductCardComponent = 'product';
-const methodNameAdd: keyof CartService = 'add';
+const methodNameAdd: keyof CartContext = 'add';
 
 describe('ProductCard', () => {
   let fixture: ComponentFixture<ProductCardComponent>;
@@ -13,7 +13,7 @@ describe('ProductCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ProductCardComponent],
-      providers: [CartService, provideRouter([])]
+      providers: [CartContext, provideRouter([])]
     });
     
     fixture = TestBed.createComponent(ProductCardComponent);
@@ -57,7 +57,7 @@ describe('ProductCard', () => {
   });
 
   describe('addToCart()', () => {
-    it('should call cartService.add() with the correct product', () => {
+    it('should call cartContext.add() with the correct product', () => {
       fixture.componentRef.setInput(
         methodNameProduct, {
           name: 'Potion',
@@ -65,11 +65,11 @@ describe('ProductCard', () => {
           category: 'Medicines'
         });
 
-      spyOn(fixture.componentInstance.cartService, methodNameAdd);
+      spyOn(fixture.componentInstance.cartContext, methodNameAdd);
 
       fixture.componentInstance.addToCart();
 
-      expect(fixture.componentInstance.cartService.add)
+      expect(fixture.componentInstance.cartContext.add)
         .toHaveBeenCalledWith({ 
           product: {
             name: 'Potion',

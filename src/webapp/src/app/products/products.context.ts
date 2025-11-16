@@ -1,11 +1,11 @@
 import { computed, inject, Injectable, resource } from "@angular/core";
 import { ProductsService } from "./products.service";
-import { FiltersService } from "../filters/filters.service";
+import { FiltersContext } from "../filters/filters.context";
 
 @Injectable({ providedIn: 'root' })
 export class ProductsContext {
   productsService = inject(ProductsService);
-  filtersService = inject(FiltersService);
+  filtersContext = inject(FiltersContext);
 
   fetchedProducts = resource({
     loader: () => this.productsService.getProducts()
@@ -14,7 +14,7 @@ export class ProductsContext {
   products = computed(() => {
     let products = this.fetchedProducts.value() ?? [];
 
-    const filters = this.filtersService.filters();
+    const filters = this.filtersContext.filters();
     if (filters.categories) {
       const categories = filters.categories ?? ['Uncategorized'];
 

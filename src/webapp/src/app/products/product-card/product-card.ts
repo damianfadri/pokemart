@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Product } from '../product/product.model';
-import { CartService } from '../../cart/cart.service';
+import { CartContext } from '../../cart/cart.context';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,10 +12,10 @@ import { RouterLink } from '@angular/router';
 export class ProductCardComponent {
   product = input.required<Product>();
 
-  cartService = inject(CartService);
+  cartContext = inject(CartContext);
 
   addToCart() {
-    this.cartService.add({
+    this.cartContext.add({
       product: this.product(),
       quantity: 1
     });

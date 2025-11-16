@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { ProductCardComponent } from './product-card/product-card';
-import { ProductsContext } from './product.context';
+import { ProductsContext } from './products.context';
 
 @Component({
   selector: 'app-products',
