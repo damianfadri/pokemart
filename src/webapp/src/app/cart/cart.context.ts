@@ -3,7 +3,7 @@ import { CartItem } from './cart-item/cart-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartContext {
-  private items = signal<CartItem[]>([]);
+  items = signal<CartItem[]>([]);
 
   list(): CartItem[] {
     return this.items();
