@@ -1,11 +1,11 @@
 import { Component, computed, inject, resource } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductsService } from '../products.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { CartButtonComponent } from '../../cart/cart-button/cart-button';
 
 @Component({
   selector: 'app-product',
-  imports: [RouterLink],
+  imports: [RouterLink, CartButtonComponent],
   templateUrl: './product.html',
   styleUrl: './product.css',
 })
