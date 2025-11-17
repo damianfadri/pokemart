@@ -20,7 +20,15 @@ export class CartButtonComponent {
     return found ? found.quantity : 0;
   });
 
+  canAddToCart = computed(() => {
+    return this.quantity() < (this.product().stock ?? 0);
+  });
+
   addToCart() {
+    if (!this.canAddToCart()) {
+      return;
+    }
+
     this.cartContext.add({
       product: this.product(),
       quantity: 1

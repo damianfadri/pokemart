@@ -192,6 +192,7 @@ export class ProductsService {
         name: product.name,
         price: product.price,
         category: product.category,
+        stock: product.stock,
         resources: product.resources
       }));
   }

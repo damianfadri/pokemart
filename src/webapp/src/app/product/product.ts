@@ -24,7 +24,7 @@ export class ProductComponent {
 
   fetchedProduct = resource({
     params: () => ({ name: this.name }),
-    loader: ({ params }) =>  this.productsService.getProduct(params.name)
+    loader: ({ params }) => this.productsService.getProduct(params.name)
   });
 
   product = computed(() => {
@@ -33,13 +33,16 @@ export class ProductComponent {
     }
 
     return {
-      name: '',
-      description: '',
-      price: 0,
-      stock: 0,
-      category: '',
-      rarity: '',
-      resources: { uri: '', spriteUri: '' }
-    }
+      name: 'Product Name',
+      description: 'Description of the product',
+      price: 100,
+      stock: 10,
+      category: 'Uncategorized',
+      rarity: 'Common',
+      resources: { 
+        uri: 'full/product.png', 
+        spriteUri: 'sprite/product.png' 
+      }
+    };
   });
 }
