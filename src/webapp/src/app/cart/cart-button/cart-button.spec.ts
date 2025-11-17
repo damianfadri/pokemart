@@ -4,6 +4,7 @@ import { CartButtonComponent } from './cart-button';
 import { CartContext } from '../cart.context';
 
 const methodNameAdd: keyof CartContext = 'add';
+const methodNameRemove: keyof CartContext = 'remove';
 const methodNameProduct: keyof CartButtonComponent = 'product';
 
 describe('CartButton', () => {
@@ -43,6 +44,109 @@ describe('CartButton', () => {
           },
           quantity: 1, 
         });
+    });
+  });
+
+  describe('removeFromCart()', () => {
+    it('should call cartContext.remove() with the correct product', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      spyOn(fixture.componentInstance.cartContext, methodNameRemove);
+
+      fixture.componentInstance.removeFromCart();
+
+      expect(fixture.componentInstance.cartContext.remove)
+        .toHaveBeenCalledWith({
+          product: {
+            name: 'Potion',
+            price: 300,
+            category: 'Medicines'
+          },
+          quantity: 1
+        });
+    });
+  });
+
+  describe('quantity()', () => {
+    it('should return 0 when cart is empty', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(0);   
+    });
+
+    it('should return the quantity of the product in the cart', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(3);   
+    });
+
+    it('should render quantity', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-quantity]')?.textContent)
+        .toContain('3');
+    });
+
+    it('should render default button if no quantity', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]'))
+        .toBeTruthy();
+    });
+
+    it('should render plus and minus button if has quantity', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-with-quantity]'))
+        .toBeTruthy();
     });
   });
 });
