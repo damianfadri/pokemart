@@ -1,10 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { CartContext } from '../cart.context';
 import { Product } from '../../products/product/product.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cart-button',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './cart-button.html',
   styleUrl: './cart-button.css',
 })
@@ -12,8 +13,20 @@ export class CartButtonComponent {
   product = input.required<Product>();
   cartContext = inject(CartContext);
   
+  quantity = computed(() => {
+    const found = this.cartContext.items().find(item => item.product.name === this.product().name);
+    return found ? found.quantity : 0;
+  });
+
   addToCart() {
     this.cartContext.add({
+      product: this.product(),
+      quantity: 1
+    });
+  }
+
+  removeFromCart() {
+    this.cartContext.remove({
       product: this.product(),
       quantity: 1
     });
