@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Product } from '../product/product.model';
+import { Product } from '../../product/product.model';
 import { CartContext } from '../../cart/cart.context';
 import { RouterLink } from '@angular/router';
 import { CartButtonComponent } from '../../cart/cart-button/cart-button';
@@ -12,13 +12,4 @@ import { CartButtonComponent } from '../../cart/cart-button/cart-button';
 })
 export class ProductCardComponent {
   product = input.required<Product>();
-
-  cartContext = inject(CartContext);
-
-  addToCart() {
-    this.cartContext.add({
-      product: this.product(),
-      quantity: 1
-    });
-  }
 }

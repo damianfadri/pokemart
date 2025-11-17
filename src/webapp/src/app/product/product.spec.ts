@@ -4,9 +4,9 @@ import { ProductComponent } from './product';
 import { ResourceRef } from '@angular/core';
 import { Product, ProductDetails } from './product.model';
 import { provideRouter } from '@angular/router';
-import { ProductsComponent } from '../products';
+import { ProductsComponent } from '../products/products';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../products/products.service';
 
 const methodNameFetchedProduct: keyof ResourceRef<ProductDetails | undefined> = 'value';
 const methodNameProduct: keyof ProductsService = 'getProduct';
