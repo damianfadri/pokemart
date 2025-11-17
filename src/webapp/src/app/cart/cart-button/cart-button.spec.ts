@@ -19,7 +19,6 @@ describe('CartButton', () => {
 
     fixture = TestBed.createComponent(CartButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   describe('addToCart()', () => {
@@ -239,6 +238,24 @@ describe('CartButton', () => {
 
       expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]'))
         .toBeTruthy();
+    });
+
+    it('should render sold out if no stock', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          stock: 0,
+        });
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]')?.textContent)
+        .toContain('Sold out');
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]').disabled)
+        .toBeTrue();
     });
   });
 });
