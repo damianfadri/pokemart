@@ -19,7 +19,6 @@ describe('CartButton', () => {
 
     fixture = TestBed.createComponent(CartButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   describe('addToCart()', () => {
@@ -28,7 +27,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       spyOn(fixture.componentInstance.cartContext, methodNameAdd);
@@ -40,10 +40,49 @@ describe('CartButton', () => {
           product: {
             name: 'Potion',
             price: 300,
-            category: 'Medicines'
+            category: 'Medicines',
+            stock: 1,
           },
           quantity: 1, 
         });
+    });
+
+    it('should increment when plus button is clicked', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          stock: 4,
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('[data-testid=button-cart-plus]')?.click();
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(4);
+    });
+
+    it('should disable plus button when stock is used up', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          stock: 1,
+        });
+
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-plus]')?.disabled)
+        .toBeTrue();
     });
   });
 
@@ -53,7 +92,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       spyOn(fixture.componentInstance.cartContext, methodNameRemove);
@@ -65,10 +105,32 @@ describe('CartButton', () => {
           product: {
             name: 'Potion',
             price: 300,
-            category: 'Medicines'
+            category: 'Medicines',
+            stock: 1,
           },
           quantity: 1
         });
+    });
+
+    it('should decrement when minus button is clicked', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          stock: 3,
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('[data-testid=button-cart-minus]')?.click();
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(2);
     });
   });
 
@@ -78,7 +140,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       expect(fixture.componentInstance.quantity())
@@ -90,7 +153,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 3,
         });
 
       fixture.componentInstance.addToCart();
@@ -106,7 +170,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 3,
         });
 
       fixture.componentInstance.addToCart();
@@ -124,7 +189,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       fixture.detectChanges();
@@ -138,7 +204,8 @@ describe('CartButton', () => {
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       fixture.componentInstance.addToCart();
@@ -149,52 +216,13 @@ describe('CartButton', () => {
         .toBeTruthy();
     });
 
-    it('should decrement when minus button is clicked', () => {
-      fixture.componentRef.setInput(
-        methodNameProduct, {
-          name: 'Potion',
-          price: 300,
-          category: 'Medicines'
-        });
-
-      fixture.componentInstance.addToCart();
-      fixture.componentInstance.addToCart();
-      fixture.componentInstance.addToCart();
-
-      fixture.detectChanges();
-
-      fixture.nativeElement.querySelector('[data-testid=button-cart-minus]')?.click();
-
-      expect(fixture.componentInstance.quantity())
-        .toBe(2);
-    });
-
-    it('should increment when plus button is clicked', () => {
-      fixture.componentRef.setInput(
-        methodNameProduct, {
-          name: 'Potion',
-          price: 300,
-          category: 'Medicines'
-        });
-
-      fixture.componentInstance.addToCart();
-      fixture.componentInstance.addToCart();
-      fixture.componentInstance.addToCart();
-
-      fixture.detectChanges();
-
-      fixture.nativeElement.querySelector('[data-testid=button-cart-plus]')?.click();
-
-      expect(fixture.componentInstance.quantity())
-        .toBe(4);
-    });
-
     it('should revert button to default if quantity is 0', () => {
       fixture.componentRef.setInput(
         methodNameProduct, {
           name: 'Potion',
           price: 300,
-          category: 'Medicines'
+          category: 'Medicines',
+          stock: 1,
         });
 
       fixture.componentInstance.addToCart();
@@ -210,6 +238,24 @@ describe('CartButton', () => {
 
       expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]'))
         .toBeTruthy();
+    });
+
+    it('should render sold out if no stock', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines',
+          stock: 0,
+        });
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]')?.textContent)
+        .toContain('Sold out');
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]').disabled)
+        .toBeTrue();
     });
   });
 });
