@@ -6,7 +6,7 @@ import { FiltersContext } from '../filters/filters.context';
 import { provideRouter } from '@angular/router';
 import { ProductsContext } from './products.context';
 import { ResourceRef } from '@angular/core';
-import { Product } from './product/product.model';
+import { Product } from '../product/product.model';
 
 const methodNameProducts: keyof ProductsContext = 'products';
 const methodNameFetchedProducts: keyof ResourceRef<Product[]> = 'value';

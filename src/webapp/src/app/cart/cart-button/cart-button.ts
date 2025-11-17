@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { CartContext } from '../cart.context';
-import { Product } from '../../products/product/product.model';
+import { Product } from '../../product/product.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +14,9 @@ export class CartButtonComponent {
   cartContext = inject(CartContext);
   
   quantity = computed(() => {
-    const found = this.cartContext.items().find(item => item.product.name === this.product().name);
+    const found = this.cartContext.list()
+      .find(item => item.product.name === this.product().name);
+
     return found ? found.quantity : 0;
   });
 

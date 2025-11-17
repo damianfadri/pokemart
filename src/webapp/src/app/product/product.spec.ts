@@ -2,11 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductComponent } from './product';
 import { ResourceRef } from '@angular/core';
-import { Product, ProductDetails } from './product.model';
+import { ProductDetails } from './product.model';
 import { provideRouter } from '@angular/router';
-import { ProductsComponent } from '../products';
-import { RouterTestingHarness } from '@angular/router/testing';
-import { ProductsService } from '../products.service';
+import { ProductsComponent } from '../products/products';
+import { ProductsService } from '../products/products.service';
 
 const methodNameFetchedProduct: keyof ResourceRef<ProductDetails | undefined> = 'value';
 const methodNameProduct: keyof ProductsService = 'getProduct';
@@ -185,6 +184,60 @@ describe('Product', () => {
       const compiled = fixture.nativeElement as HTMLElement;
       expect(compiled.querySelector('[data-testid=product-image]')?.getAttribute('src'))
         .toContain('https://sample.com/potion.png');
-    })
+    });
+  });
+
+  describe('hasCartItems()', () => {
+    it('should return false when cart is empty', () => {
+      spyOn(fixture.componentInstance.cartContext, 'list')
+        .and.returnValue([]);
+
+      expect(fixture.componentInstance.hasCartItems())
+        .toBeFalse();
+    });
+
+    it('should return true when cart is not empty', () => {
+      spyOn(fixture.componentInstance.cartContext, 'list')
+        .and.returnValue([{
+          product: {
+            name: 'Potion',
+            price: 300,
+            category: 'Medicines'
+          },
+          quantity: 1
+        }]);
+
+      expect(fixture.componentInstance.hasCartItems())
+        .toBeTrue();
+    });
+
+    it('should not render cart if cart is empty', () => {
+      spyOn(fixture.componentInstance.cartContext, 'list')
+        .and.returnValue([]);
+
+        fixture.detectChanges();
+
+        const compiled = fixture.nativeElement as HTMLElement;
+        expect(compiled.querySelector('[data-testid=product-cart]'))
+          .not.toBeTruthy();
+    });
+
+    it('should render cart if cart is not empty', () => {
+      spyOn(fixture.componentInstance.cartContext, 'list')
+        .and.returnValue([{
+          product: {
+            name: 'Potion',
+            price: 300,
+            category: 'Medicines'
+          },
+          quantity: 1
+        }]);
+
+        fixture.detectChanges();
+
+        const compiled = fixture.nativeElement as HTMLElement;
+        expect(compiled.querySelector('[data-testid=product-cart]'))
+          .toBeTruthy();
+    });
   });
 });

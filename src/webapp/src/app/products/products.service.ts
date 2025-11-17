@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Product, ProductDetails } from './product/product.model';
+import { Product, ProductDetails } from '../product/product.model';
 
 const defaultProducts: ProductDetails[] = [
   {
