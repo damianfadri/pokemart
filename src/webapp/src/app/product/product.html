@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-  <section class="lg:col-span-9" [class.lg:col-span-12]="noItemsInCart()">
+  <section class="lg:col-span-9" [class.lg:col-span-12]="!hasCartItems()">
     <nav aria-label="Breadcrumb" class="mb-4">
       <ol class="flex items-center text-sm text-gray-600">
         <li><a [routerLink]="['..']" class="text-lg hover:text-pumpkin-500 text-gray-500" data-testid="breadcrumb-home">Products</a></li>
@@ -101,9 +101,12 @@
     </section>
   </section>
 
-  <aside class="lg:col-span-3" [class.hidden]="noItemsInCart()">
-    <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
-      <app-cart></app-cart>
-    </div>
-  </aside>
+  @if (hasCartItems()) {
+    <aside class="lg:col-span-3" data-testid="product-cart">
+      <div class="bg-white rounded-lg p-4 shadow-sm sticky top-6">
+        <app-cart></app-cart>
+      </div>
+    </aside>
+  }
+
 </div>

@@ -16,8 +16,8 @@ export class ProductComponent {
   route = inject(ActivatedRoute);
   cartContext = inject(CartContext);
 
-  noItemsInCart = computed(() => {
-    return this.cartContext.list().length === 0
+  hasCartItems = computed(() => {
+    return this.cartContext.list().length > 0
   });
 
   name = this.route.snapshot.paramMap.get('name') ?? '';
