@@ -13,12 +13,12 @@
   </button>
 } @else {
   <div class="flex items-center" (click)="$event.stopPropagation()" data-testid="button-cart-with-quantity">
-    <button (click)="removeFromCart()"
+    <button (click)="removeFromCart()" data-testid="button-cart-minus"
       class="bg-pumpkin-500 text-gray-800 font-bold py-1 px-3 rounded-l transition transform duration-150 ease-in-out hover:scale-115 active:scale-95 active:shadow-inner focus:outline-none cursor-pointer">-</button>
     <span class="bg-pumpkin-300 text-gray-800 font-semibold py-1 px-4" data-testid="button-cart-quantity">
       {{ quantity() }}
     </span>
-    <button (click)="addToCart()"
+    <button (click)="addToCart()" data-testid="button-cart-plus"
       class="bg-pumpkin-500 text-gray-800 font-bold py-1 px-3 rounded-r transition transform duration-150 ease-in-out hover:scale-115 active:scale-95 active:shadow-inner focus:outline-none cursor-pointer">+</button>
   </div>
 }

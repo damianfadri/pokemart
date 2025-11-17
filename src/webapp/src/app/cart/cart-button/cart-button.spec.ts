@@ -148,5 +148,68 @@ describe('CartButton', () => {
       expect(fixture.nativeElement.querySelector('[data-testid=button-cart-with-quantity]'))
         .toBeTruthy();
     });
+
+    it('should decrement when minus button is clicked', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('[data-testid=button-cart-minus]')?.click();
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(2);
+    });
+
+    it('should increment when plus button is clicked', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('[data-testid=button-cart-plus]')?.click();
+
+      expect(fixture.componentInstance.quantity())
+        .toBe(4);
+    });
+
+    it('should revert button to default if quantity is 0', () => {
+      fixture.componentRef.setInput(
+        methodNameProduct, {
+          name: 'Potion',
+          price: 300,
+          category: 'Medicines'
+        });
+
+      fixture.componentInstance.addToCart();
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]'))
+        .not.toBeTruthy();
+
+      fixture.componentInstance.removeFromCart();
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('[data-testid=button-cart-empty]'))
+        .toBeTruthy();
+    });
   });
 });
