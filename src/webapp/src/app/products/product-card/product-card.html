@@ -5,8 +5,8 @@
 
   <h3 class="mt-3 text-sm font-christiana" data-testid="item-name">{{ product().name }}</h3>
   <p class="text-lg text-gray-500" data-testid="item-category">{{ product().category }}</p>
-  <div class="mt-3 flex flex-wrap items-center justify-between">
-    <div class="font-bold text-2xl" data-testid="item-price">₽{{ product().price }}</div>
+  <div class="mt-3 flex items-center justify-between">
+    <div class="font-bold text-2xl truncate min-w-0" data-testid="item-price">₽{{ product().price }}</div>
     <app-cart-button 
       [product]="product()">
     </app-cart-button>
