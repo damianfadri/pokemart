@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartComponent } from './cart';
 import { CartContext } from './cart.context';
+import { provideRouter } from '@angular/router';
 
 const methodNameList: keyof CartContext = 'list';
 
@@ -11,7 +12,7 @@ describe('Cart', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CartComponent],
-      providers: [CartContext]
+      providers: [CartContext, provideRouter([])]
     });
 
     fixture = TestBed.createComponent(CartComponent);
